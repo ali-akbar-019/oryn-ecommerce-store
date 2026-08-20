@@ -7,6 +7,7 @@ import { colors, spacing, typography } from '@/theme';
 import { Button, IconButton, Text, Divider } from '@/components/ui';
 import { ProductCard } from '@/components/product/ProductCard';
 import { getProduct, products } from '@/data/catalog';
+import { useCartStore } from '@/store/cartStore';
 
 const WIDTH = Dimensions.get('window').width;
 
@@ -16,10 +17,11 @@ export default function ProductDetailScreen() {
   const [selectedColor, setSelectedColor] = useState(product?.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product?.sizes?.[0]);
   const [quantity, setQuantity] = useState(1);
+  const addItem = useCartStore((state) => state.addItem);
   const [activeImage, setActiveImage] = useState(0);
 
   const related = useMemo(() => products.filter((p) => p.id !== product?.id && p.category === product?.category).slice(0, 3), [product]);
-  if (!product) return <View style={styles.missing}><Text style={styles.missingTitle}>Piece not found.</Text><Button title="Back to shop" onPress={() => router.replace('/shop')} /></View>;
+  if (!product) return <View style={styles.missing}><Text style={styles.missingTitle}>Piece not found.</Text><Button label="Back to shop" onPress={() => router.replace('/shop')} /></View>;
 
   return <View style={styles.container}>
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
@@ -39,7 +41,7 @@ export default function ProductDetailScreen() {
         <Option title="COLOR"><View style={styles.options}>{product.colors.map((color) => <Pressable key={color} onPress={() => setSelectedColor(color)} style={[styles.colorOption, selectedColor === color && styles.selectedOption]}><Text style={styles.optionText}>{color}</Text></Pressable>)}</View></Option>
         {product.sizes ? <Option title="SIZE"><View style={styles.options}>{product.sizes.map((size) => <Pressable key={size} onPress={() => setSelectedSize(size)} style={[styles.sizeOption, selectedSize === size && styles.selectedOption]}><Text style={styles.optionText}>{size}</Text></Pressable>)}</View></Option> : null}
         <Option title="QUANTITY"><View style={styles.quantity}><Pressable onPress={() => setQuantity(Math.max(1, quantity - 1))} style={styles.qtyButton}><Minus size={15} color={colors.text} /></Pressable><Text style={styles.qtyText}>{quantity}</Text><Pressable onPress={() => setQuantity(quantity + 1)} style={styles.qtyButton}><Plus size={15} color={colors.text} /></Pressable></View></Option>
-        <Button title="Add to bag" onPress={() => {}} style={styles.addButton} />
+        <Button label="Add to bag" onPress={() => { addItem(product, { color: selectedColor, size: selectedSize, quantity }); router.push('/cart'); }} style={styles.addButton} />
         <View style={styles.info}><InfoRow title="Materials" value={product.material} /><InfoRow title="Shipping" value="Complimentary delivery over $150" /><InfoRow title="Returns" value="30-day returns on unworn pieces" /></View>
       </View>
       {related.length ? <View style={styles.related}><Text style={styles.relatedEyebrow}>COMPLETE THE EDIT</Text><Text style={styles.relatedTitle}>You may also like</Text><ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.relatedRail}>{related.map((item) => <ProductCard key={item.id} product={{ ...item, price: `$${item.price}`, compareAt: item.compareAt ? `$${item.compareAt}` : undefined }} onPress={() => router.push(`/product/${item.id}`)} />)}</ScrollView></View> : null}

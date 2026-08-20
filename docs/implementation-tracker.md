@@ -77,3 +77,16 @@
 - [x] Product variant selection
 - [x] Product quantity selector
 - [x] Related products rail
+
+## Phase 2 UI — Cart & Checkout
+- [x] Cart store with variant-aware line items
+- [x] Add-to-bag product flow
+- [x] Cart line item controls
+- [x] Cart removal
+- [x] Cart totals and shipping threshold
+- [x] Empty cart state
+- [x] Checkout shell
+- [x] Delivery/payment sections
+- [x] Order summary
+- [x] Mock order confirmation
+- [x] Orders landing screen
