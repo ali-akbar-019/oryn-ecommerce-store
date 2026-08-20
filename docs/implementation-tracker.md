@@ -173,3 +173,15 @@
 - [x] Review approval/rejection audit trail
 - [x] Product editor routing
 - [x] Product management navigation
+
+## Phase 10 — Operations workspaces
+- [✓] Orders detail workspace
+- [✓] Customers detail workspace
+- [✓] Discounts management
+- [✓] Returns management
+- [✓] Payments monitoring
+- [✓] Shipping management
+- [✓] Notifications management
+- [✓] Administrator management
+- [✓] Roles management
+- [✓] Audit log workspace

@@ -20,6 +20,21 @@ export const adminData={
  inventoryHistory:(variantId:string)=>api(`/admin/inventory/${variantId}/history`),
  reviews:()=>api('/admin/reviews'),
  review:(id:string)=>api(`/admin/reviews/${id}`),
- updateReview:(id:string,body:unknown)=>api(`/admin/reviews/${id}`,{method:'PATCH',body:JSON.stringify(body)})
+ updateReview:(id:string,body:unknown)=>api(`/admin/reviews/${id}`,{method:'PATCH',body:JSON.stringify(body)}),
+ coupons:()=>api('/admin/coupons'),
+ createCoupon:(body:unknown)=>api('/admin/coupons',{method:'POST',body:JSON.stringify(body)}),
+ returns:()=>api('/admin/returns'),
+ updateReturn:(id:string,body:unknown)=>api(`/admin/returns/${id}`,{method:'PATCH',body:JSON.stringify(body)}),
+ payments:()=>api('/admin/payments'),
+ shipping:()=>api('/admin/shipping'),
+ createShipping:(body:unknown)=>api('/admin/shipping',{method:'POST',body:JSON.stringify(body)}),
+ updateShipping:(id:string,body:unknown)=>api(`/admin/shipping/${id}`,{method:'PATCH',body:JSON.stringify(body)}),
+ notifications:()=>api('/admin/notifications'),
+ createNotification:(body:unknown)=>api('/admin/notifications',{method:'POST',body:JSON.stringify(body)}),
+ administrators:()=>api('/admin/administrators'),
+ createAdministrator:(body:unknown)=>api('/admin/administrators',{method:'POST',body:JSON.stringify(body)}),
+ roles:()=>api('/admin/roles'),
+ createRole:(body:unknown)=>api('/admin/roles',{method:'POST',body:JSON.stringify(body)}),
+ auditLogs:()=>api('/admin/audit-logs')
 };
 
