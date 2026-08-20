@@ -90,3 +90,19 @@
 - [x] Order summary
 - [x] Mock order confirmation
 - [x] Orders landing screen
+
+## Phase 3B — Wishlist, Authentication & Account
+- [x] Guest wishlist state
+- [x] Wishlist product grid and empty state
+- [x] Login screen
+- [x] Registration screen
+- [x] Forgot password screen
+- [x] Reset password screen
+- [x] Email verification screen
+- [x] SecureStore-backed session persistence foundation
+- [x] Profile overview
+- [x] Personal information screen
+- [x] Addresses screen
+- [x] Security screen
+- [x] Notification/settings screen
+- [x] Logout flow
