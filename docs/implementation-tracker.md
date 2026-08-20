@@ -67,3 +67,13 @@
 - [ ] Roles and permissions
 - [ ] Audit logs
 - [ ] Settings
+
+## Phase 1 UI — Shop & Discovery
+- [x] Catalog presentation data
+- [x] Shop screen with category filtering
+- [x] Search screen with popular searches and results
+- [x] Product grid
+- [x] Product detail gallery
+- [x] Product variant selection
+- [x] Product quantity selector
+- [x] Related products rail

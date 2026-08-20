@@ -36,7 +36,7 @@ export function ProductCard({ product, onPress }: { product: Product; onPress?: 
 }
 
 const styles = StyleSheet.create({
-  card: { width: 166 },
+  card: { width: '100%' },
   imageWrap: { aspectRatio: 0.78, backgroundColor: colors.surfaceMuted, overflow: 'hidden', position: 'relative' },
   image: { width: '100%', height: '100%' },
   wishlist: { position: 'absolute', right: 10, top: 10, width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(248,247,244,0.92)', alignItems: 'center', justifyContent: 'center' },
