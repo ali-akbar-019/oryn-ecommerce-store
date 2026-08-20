@@ -50,3 +50,6 @@ Implemented:
 ## Important
 
 The API is authoritative for pricing, inventory, checkout totals, payment state and order creation. The mobile UI should never be treated as a source of truth for commerce decisions.
+
+## Admin UI
+The ORYN admin is a dedicated React/Vite application with a premium operations interface. Phase 7 establishes the complete operational navigation and screen system; data fixtures are intentionally isolated from UI components so they can be replaced with API queries during integration.
