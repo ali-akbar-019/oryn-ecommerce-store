@@ -1,0 +1,1 @@
+{"name":"@oryn/validation","private":true,"version":"0.1.0","main":"src/index.ts","types":"src/index.ts","dependencies":{"zod":"^4.1.12"},"devDependencies":{"typescript":"~5.9.2"},"scripts":{"typecheck":"tsc --noEmit"}}

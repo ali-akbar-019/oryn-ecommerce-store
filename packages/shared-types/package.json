@@ -1,0 +1,1 @@
+{"name":"@oryn/shared-types","private":true,"version":"0.1.0","main":"src/index.ts","types":"src/index.ts","scripts":{"typecheck":"tsc --noEmit","lint":"eslint ."},"devDependencies":{"typescript":"~5.9.2"}}
