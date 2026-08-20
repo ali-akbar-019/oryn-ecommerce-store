@@ -1,5 +1,7 @@
 # ORYN
 
+> Final implementation package — production readiness and deployment foundation.
+
 Premium, production-minded multi-category ecommerce platform.
 
 ## Monorepo
@@ -56,3 +58,37 @@ The ORYN admin is a dedicated React/Vite application with a premium operations i
 
 ## Phase 11
 Production UX refinement primitives are now included for loading, retryable errors, action feedback, confirmations, responsive admin layouts, and keyboard focus states.
+
+## Final local setup
+
+### Option A — XAMPP MySQL
+
+1. Start MySQL in XAMPP.
+2. Create a database named `oryn`.
+3. Copy `.env.example` to `.env`.
+4. Set `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` to long random values.
+5. Run `pnpm install`.
+6. Run `pnpm --filter @oryn/database db:generate`.
+7. Run `pnpm --filter @oryn/database db:migrate`.
+8. Run `pnpm --filter @oryn/database db:seed`.
+9. Start the API: `pnpm --filter @oryn/api dev`.
+10. Start admin: `pnpm --filter @oryn/admin dev`.
+11. Start Expo: `pnpm --filter @oryn/mobile dev`.
+
+### Option B — Docker MySQL
+
+Run `docker compose -f docker-compose.local.yml up -d`, then run the Prisma generate/migrate/seed commands above.
+
+## Production
+
+- Use `.env.production.example` as the variable checklist.
+- Generate and commit Prisma migrations during development; apply them in production with `pnpm --filter @oryn/database db:migrate:deploy`.
+- Build with `pnpm typecheck && pnpm build`.
+- Deploy the API and admin from their respective build outputs.
+- Configure a real payment provider, email provider, image/object storage and shared Redis-backed rate limiting/idempotency before public launch.
+
+## Verification
+
+The API exposes `GET /health` for process health and `GET /ready` for MySQL readiness.
+
+See `docs/architecture/phase13-production-readiness.md` for the final production checklist.

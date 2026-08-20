@@ -207,3 +207,16 @@
 - [ ] Durable Redis rate limiter/idempotency store
 - [ ] Full integration test suite against MySQL
 - [ ] Production deployment verification
+
+
+## Phase 13 — Production Readiness
+- [x] Production environment template
+- [x] API health/readiness endpoints
+- [x] API production start script
+- [x] Prisma production migration command
+- [x] Local MySQL Docker compose
+- [x] API/Admin container foundations
+- [x] Final production-readiness documentation
+- [ ] Provider-specific deployment credentials (deployment-time)
+- [ ] Production Redis/shared idempotency (deployment-time)
+- [ ] Real payment/email/object-storage credentials (deployment-time)

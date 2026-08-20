@@ -1,0 +1,21 @@
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: oryn
+      MYSQL_USER: oryn
+      MYSQL_PASSWORD: oryn
+    ports:
+      - "3306:3306"
+    volumes:
+      - oryn_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uoryn", "-poryn"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  oryn_mysql:

@@ -15,6 +15,7 @@ import { requestId } from './middleware/requestId';
 import { rateLimit } from './middleware/rateLimit';
 import { idempotency } from './middleware/idempotency';
 import { applySecurity } from './common/security';
+import { healthRouter } from './routes/health.routes';
 
 export function createApp() {
   const app = express();
@@ -23,7 +24,7 @@ export function createApp() {
   app.use(express.json({ limit: '1mb' }));
   app.use(rateLimit({ windowMs: 60_000, max: 240 }));
   app.use(idempotency());
-  app.get('/health', (_req, res) => res.json({ status: 'ok', service: 'oryn-api' }));
+  app.use(healthRouter);
   app.use('/api/auth', authRouter);
   app.use('/api/products', productsRouter);
   app.use('/api/categories', categoriesRouter);
