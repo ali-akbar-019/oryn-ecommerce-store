@@ -2,6 +2,7 @@ import { api } from './api';
 export const adminData={
  dashboard:()=>api('/admin/dashboard'),
  products:(q='')=>api(`/admin/products?limit=100${q?`&q=${encodeURIComponent(q)}`:''}`),
+ product:(id:string)=>api(`/admin/products/${id}`),
  createProduct:(body:unknown)=>api('/admin/products',{method:'POST',body:JSON.stringify(body)}),
  updateProduct:(id:string,body:unknown)=>api(`/admin/products/${id}`,{method:'PATCH',body:JSON.stringify(body)}),
  archiveProduct:(id:string)=>api(`/admin/products/${id}`,{method:'DELETE'}),
@@ -14,5 +15,11 @@ export const adminData={
  orders:()=>api('/admin/orders'),
  order:(id:string)=>api(`/admin/orders/${id}`),
  updateOrder:(id:string,body:unknown)=>api(`/admin/orders/${id}`,{method:'PATCH',body:JSON.stringify(body)}),
- customers:()=>api('/admin/customers')
+ customers:()=>api('/admin/customers'),
+ customer:(id:string)=>api(`/admin/customers/${id}`),
+ inventoryHistory:(variantId:string)=>api(`/admin/inventory/${variantId}/history`),
+ reviews:()=>api('/admin/reviews'),
+ review:(id:string)=>api(`/admin/reviews/${id}`),
+ updateReview:(id:string,body:unknown)=>api(`/admin/reviews/${id}`,{method:'PATCH',body:JSON.stringify(body)})
 };
+

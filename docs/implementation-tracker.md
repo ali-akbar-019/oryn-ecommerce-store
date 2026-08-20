@@ -160,3 +160,16 @@
 [ ] Full variant editor
 [ ] Full category tree editor
 [ ] Granular permission enforcement per action
+
+## Phase 9 — Product Studio & Operational Detail
+- [x] Professional product editor workspace
+- [x] Product identity, status and category editing
+- [x] Variant editor with pricing and stock
+- [x] Product media manager
+- [x] Flexible product attributes
+- [x] Inventory history endpoint
+- [x] Customer detail endpoint
+- [x] Review moderation API
+- [x] Review approval/rejection audit trail
+- [x] Product editor routing
+- [x] Product management navigation
