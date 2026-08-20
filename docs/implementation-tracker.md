@@ -139,3 +139,24 @@
 - [x] Settings workspace
 - [x] Shared admin table/toolbar/status patterns
 - [x] Admin visual system and interaction states
+
+
+## Phase 8 — Admin Authentication & Connected Commerce Operations
+
+[✓] Admin login and administrator-role guard
+[✓] Admin token persistence and refresh handling
+[✓] Connected admin API client
+[✓] Product listing/create/update/archive
+[✓] Category listing/create/update/delete
+[✓] Inventory listing and stock adjustment
+[✓] Order listing/detail/status update
+[✓] Customer listing
+[✓] Admin audit entry on order status changes
+[✓] Connected product/category/inventory/order/customer admin screens
+[✓] Admin modal/form interactions
+[✓] Admin loading/error states
+[✓] Premium admin login experience
+[ ] Product image upload provider integration
+[ ] Full variant editor
+[ ] Full category tree editor
+[ ] Granular permission enforcement per action

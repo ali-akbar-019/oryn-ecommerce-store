@@ -1,6 +1,10 @@
 import 'dotenv/config';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { PrismaClient } from '../generated/prisma/client';
+import { randomBytes, scrypt as nodeScrypt } from 'node:crypto';
+import { promisify } from 'node:util';
+const scrypt = promisify(nodeScrypt);
+async function hashPassword(password: string) { const salt = randomBytes(16); const derived = await scrypt(password, salt, 64) as Buffer; return `${salt.toString('hex')}:${derived.toString('hex')}`; }
 
 const adapter = new PrismaMariaDb({ host: process.env.DB_HOST ?? '127.0.0.1', port: Number(process.env.DB_PORT ?? 3306), user: process.env.DB_USER ?? 'root', password: process.env.DB_PASSWORD ?? '', database: process.env.DB_NAME ?? 'oryn', connectionLimit: 5 });
 const prisma = new PrismaClient({ adapter });
@@ -14,6 +18,7 @@ async function main() {
     prisma.role.upsert({ where: { name: 'Customer' }, update: {}, create: { name: 'Customer' } }),
   ]);
   await Promise.all(permissions.map(permission => prisma.rolePermission.upsert({ where: { roleId_permissionId: { roleId: owner.id, permissionId: permission.id } }, update: {}, create: { roleId: owner.id, permissionId: permission.id } })));
+  await prisma.user.upsert({ where: { email: 'admin@oryn.store' }, update: { roleId: admin.id, status: 'ACTIVE' }, create: { email: 'admin@oryn.store', passwordHash: await hashPassword('ChangeMe123!'), firstName: 'Alex', lastName: 'Grant', roleId: admin.id } });
   await prisma.rolePermission.createMany({ data: permissions.slice(0, 10).map(permission => ({ roleId: admin.id, permissionId: permission.id })), skipDuplicates: true });
   const categories = await Promise.all([
     ['Womenswear','womenswear'], ['Menswear','menswear'], ['Accessories','accessories'], ['Objects','objects']
