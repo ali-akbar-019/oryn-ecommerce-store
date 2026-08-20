@@ -196,3 +196,14 @@
 - [x] Admin accessibility focus treatment
 - [x] Admin destructive-action visual treatment
 - [x] Admin skeleton animation foundation
+
+## Phase 12 — Production Hardening
+- [x] Security headers and explicit CORS configuration
+- [x] Request ID middleware
+- [x] Rate limiting foundation
+- [x] Idempotency-Key foundation
+- [x] Environment validation additions
+- [x] API security documentation
+- [ ] Durable Redis rate limiter/idempotency store
+- [ ] Full integration test suite against MySQL
+- [ ] Production deployment verification
