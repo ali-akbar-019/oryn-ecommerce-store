@@ -1,8 +1,9 @@
 {
   "name": "@oryn/api",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "type": "module",
   "scripts": {"dev":"tsx watch src/server.ts","build":"tsc -p tsconfig.json","typecheck":"tsc --noEmit -p tsconfig.json","lint":"eslint .","test":"vitest run"},
-  "dependencies": {"@oryn/shared-types":"workspace:*","@oryn/validation":"workspace:*","cors":"^2.8.5","express":"^5.1.0","helmet":"^8.1.0","zod":"^4.1.12"},
+  "dependencies": {"@oryn/database":"workspace:*","@oryn/shared-types":"workspace:*","@oryn/validation":"workspace:*","cors":"^2.8.5","express":"^5.1.0","helmet":"^8.1.0","zod":"^4.1.12"},
   "devDependencies": {"@types/cors":"^2.8.19","@types/express":"^5.0.3","@types/node":"^24.3.0","tsx":"^4.20.5","typescript":"~5.9.2","vitest":"^3.2.4"}
 }

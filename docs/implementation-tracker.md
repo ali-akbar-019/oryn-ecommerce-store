@@ -26,27 +26,28 @@
 - [ ] Profile
 
 ## API
-- [ ] Express bootstrap
-- [ ] Error handling
-- [ ] Validation
-- [ ] Auth
-- [ ] Products
-- [ ] Categories
-- [ ] Inventory
-- [ ] Cart
-- [ ] Wishlist
-- [ ] Checkout
-- [ ] Payments
-- [ ] Orders
-- [ ] Reviews
+- [x] Express bootstrap
+- [x] Error handling
+- [x] Validation
+- [x] Auth
+- [x] Products
+- [x] Categories
+- [x] Inventory validation
+- [x] Cart
+- [x] Wishlist
+- [x] Checkout/order creation
+- [x] Mock payments
+- [x] Orders
+- [x] Reviews
 - [ ] Returns
-- [ ] Notifications
+- [x] Notifications
 - [ ] Admin
 - [ ] Audit logs
+- [x] Addresses
 
 ## Database
-- [ ] Prisma schema
-- [ ] Seed
+- [x] Prisma schema
+- [x] Seed
 - [ ] Initial migration
 
 ## Admin
@@ -104,3 +105,12 @@
 - [x] Polished customer account screen
 - [x] Notification unread indicator
 - [x] Account navigation rows
+
+## Phase 6 — Backend Integration Foundation
+- [x] API client with access/refresh token handling
+- [x] Auth Zustand store
+- [x] TanStack Query provider
+- [x] Catalog query hooks
+- [x] Commerce query/mutation hooks
+- [x] Address hooks
+- [x] API architecture documentation
