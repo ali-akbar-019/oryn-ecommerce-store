@@ -91,18 +91,16 @@
 - [x] Mock order confirmation
 - [x] Orders landing screen
 
-## Phase 3B — Wishlist, Authentication & Account
-- [x] Guest wishlist state
-- [x] Wishlist product grid and empty state
-- [x] Login screen
-- [x] Registration screen
-- [x] Forgot password screen
-- [x] Reset password screen
-- [x] Email verification screen
-- [x] SecureStore-backed session persistence foundation
-- [x] Profile overview
-- [x] Personal information screen
-- [x] Addresses screen
-- [x] Security screen
-- [x] Notification/settings screen
-- [x] Logout flow
+## Phase 5 — Reviews, Notifications & Account Polish
+- [x] Product review data foundation
+- [x] Product review section
+- [x] Write review flow
+- [x] Review submission state
+- [x] Notification data foundation
+- [x] Notification Zustand store
+- [x] Notification center
+- [x] Mark notification read
+- [x] Mark all notifications read
+- [x] Polished customer account screen
+- [x] Notification unread indicator
+- [x] Account navigation rows

@@ -1,30 +1,25 @@
+import { ChevronRight, LucideIcon } from 'lucide-react-native';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { ChevronRight } from 'lucide-react-native';
 import { colors, spacing, typography } from '@/theme';
-import { Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui';
 
-type Props = { label: string; detail?: string; icon: React.ReactNode; onPress: () => void; destructive?: boolean };
-
-export function AccountRow({ label, detail, icon, onPress, destructive }: Props) {
+export function AccountRow({ icon: Icon, title, subtitle, onPress, destructive = false }: { icon: LucideIcon; title: string; subtitle?: string; onPress?: () => void; destructive?: boolean }) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.row, pressed && styles.pressed]}>
-      <View style={[styles.icon, destructive && styles.destructiveIcon]}>{icon}</View>
-      <View style={styles.copy}>
-        <Text style={[styles.label, destructive && styles.destructive]}>{label}</Text>
-        {detail ? <Text style={styles.detail}>{detail}</Text> : null}
-      </View>
-      <ChevronRight size={18} color={colors.textMuted} strokeWidth={1.7} />
+      <View style={[styles.icon, destructive && styles.iconDanger]}><Icon size={18} color={destructive ? colors.danger : colors.text} strokeWidth={1.7} /></View>
+      <View style={styles.copy}><Text style={[styles.title, destructive && styles.danger]}>{title}</Text>{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}</View>
+      {!destructive ? <ChevronRight size={18} color={colors.textMuted} /> : null}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  row: { minHeight: 68, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: colors.border },
-  pressed: { opacity: 0.58 },
-  icon: { width: 38, height: 38, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surfaceMuted },
-  destructiveIcon: { backgroundColor: '#F4E8E6' },
-  copy: { flex: 1, marginLeft: spacing.md },
-  label: { ...typography.body, fontSize: 15 },
-  detail: { ...typography.caption, marginTop: 3 },
-  destructive: { color: colors.danger },
+  row: { minHeight: 70, flexDirection: 'row', alignItems: 'center', gap: 14, borderBottomWidth: 1, borderBottomColor: colors.border },
+  pressed: { opacity: 0.65 },
+  icon: { width: 36, height: 36, borderWidth: 1, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.surface },
+  iconDanger: { borderColor: '#E5C8C5', backgroundColor: '#FAF0EE' },
+  copy: { flex: 1 },
+  title: { ...typography.bodyMedium, color: colors.text },
+  danger: { color: colors.danger },
+  subtitle: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
 });
