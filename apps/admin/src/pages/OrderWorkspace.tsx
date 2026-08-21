@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { adminData } from '../services/adminData';
 import { Icon } from '../components/Icon';
+import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { OrderNotes } from '../components/orders/OrderNotes';
 
 type OrderItem = {
   id: string;
@@ -66,6 +68,7 @@ type Order = {
     note?: string;
     createdAt: string;
   }>;
+  notes?: string[];
 };
 
 const formatMoney = (value: string | number) => `$${Number(value).toFixed(2)}`;
@@ -92,6 +95,12 @@ export function OrderWorkspace() {
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const [showRefundConfirm, setShowRefundConfirm] = useState(false);
+  const [isActionLoading, setIsActionLoading] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState('');
+  const [updatePaymentStatus, setUpdatePaymentStatus] = useState('');
 
   const fetchOrder = async () => {
     if (!id) return;
@@ -102,6 +111,8 @@ export function OrderWorkspace() {
     try {
       const response = await adminData.order(id);
       setOrder(response.data);
+      setUpdateStatus(response.data.status);
+      setUpdatePaymentStatus(response.data.paymentStatus);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to load order');
     } finally {
@@ -112,6 +123,87 @@ export function OrderWorkspace() {
   useEffect(() => {
     fetchOrder();
   }, [id]);
+
+  const handleCancelOrder = async () => {
+    if (!order) return;
+    setIsActionLoading(true);
+    try {
+      await adminData.updateOrder(order.id, {
+        status: 'CANCELLED',
+        paymentStatus: order.paymentStatus === 'PAID' ? 'REFUNDED' : order.paymentStatus
+      });
+      await fetchOrder();
+      setShowCancelConfirm(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to cancel order');
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleRefundOrder = async () => {
+    if (!order) return;
+    setIsActionLoading(true);
+    try {
+      await adminData.updateOrder(order.id, { paymentStatus: 'REFUNDED' });
+      await fetchOrder();
+      setShowRefundConfirm(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to process refund');
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleUpdateOrder = async () => {
+    if (!order) return;
+    setIsActionLoading(true);
+    try {
+      await adminData.updateOrder(order.id, {
+        status: updateStatus,
+        paymentStatus: updatePaymentStatus
+      });
+      await fetchOrder();
+      setShowUpdateModal(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update order');
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleExportOrder = () => {
+    if (!order) return;
+
+    const headers = ['Field', 'Value'];
+    const rows = [
+      ['Order ID', order.id],
+      ['Customer', `${order.user?.firstName} ${order.user?.lastName}`],
+      ['Email', order.user?.email || ''],
+      ['Date', new Date(order.createdAt).toLocaleString()],
+      ['Status', order.status],
+      ['Payment Status', order.paymentStatus],
+      ['Subtotal', formatMoney(order.subtotal)],
+      ['Shipping', formatMoney(order.shippingTotal)],
+      ['Tax', formatMoney(order.taxTotal)],
+      ['Total', formatMoney(order.total)],
+      ['Currency', order.currency],
+      ['Items', order.items.map((i) => `${i.productName} x${i.quantity}`).join('; ')],
+    ];
+
+    const csv = [
+      headers.join(','),
+      ...rows.map((row) => row.join(','))
+    ].join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `order-${order.id.slice(0, 10)}-export.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   if (loading) {
     return (
@@ -154,15 +246,26 @@ export function OrderWorkspace() {
             <StatusBadge value={order.paymentStatus} />
           </div>
         </div>
-        <button className="secondary-btn" onClick={() => navigate('/orders')}>
-          <Icon name="ArrowLeft" size={15} /> Back to orders
-        </button>
+        <div className="order-actions-top">
+          <button className="secondary-btn" onClick={handleExportOrder}>
+            <Icon name="Download" size={15} /> Export
+          </button>
+          <button className="secondary-btn" onClick={() => navigate('/orders')}>
+            <Icon name="ArrowLeft" size={15} /> Back to orders
+          </button>
+        </div>
       </div>
 
       {/* Customer Info */}
       <section className="panel">
         <div className="panel-head">
           <h3>Customer</h3>
+          <button
+            className="table-action"
+            onClick={() => navigate(`/customers/${order.user?.id}`)}
+          >
+            View profile <Icon name="ArrowRight" size={14} />
+          </button>
         </div>
         <div className="customer-info">
           <p>
@@ -336,28 +439,123 @@ export function OrderWorkspace() {
         </section>
       )}
 
+      {/* Order Notes */}
+      <OrderNotes
+        orderId={order.id}
+        notes={order.notes || []}
+        onNoteAdded={fetchOrder}
+        onError={setError}
+      />
+
       {/* Actions */}
       <div className="order-actions">
         <button
           className="primary-btn"
-          onClick={() => {
-            // Navigate to update order page or open modal
-            alert('Order update functionality coming soon!');
-          }}
+          onClick={() => setShowUpdateModal(true)}
         >
-          <Icon name="Pencil" size={15} /> Update order
+          <Icon name="Pencil" size={15} /> Update status
         </button>
-        <button
-          className="secondary-btn danger-outline"
-          onClick={() => {
-            if (confirm('Are you sure you want to cancel this order?')) {
-              // Handle order cancellation
-            }
-          }}
-        >
-          <Icon name="X" size={15} /> Cancel order
-        </button>
+        {order.status !== 'CANCELLED' && order.status !== 'DELIVERED' && (
+          <button
+            className="secondary-btn danger-outline"
+            onClick={() => setShowCancelConfirm(true)}
+            disabled={isActionLoading}
+          >
+            <Icon name="X" size={15} /> Cancel order
+          </button>
+        )}
+        {order.paymentStatus === 'PAID' && (
+          <button
+            className="secondary-btn"
+            onClick={() => setShowRefundConfirm(true)}
+            disabled={isActionLoading}
+          >
+            <Icon name="Undo" size={15} /> Refund
+          </button>
+        )}
       </div>
+
+      {/* Update Status Modal */}
+      {showUpdateModal && (
+        <div className="modal-backdrop" onClick={() => !isActionLoading && setShowUpdateModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-head">
+              <div>
+                <p className="eyebrow">Update order</p>
+                <h3>Change status</h3>
+              </div>
+              <button className="icon-btn" onClick={() => setShowUpdateModal(false)}>
+                <Icon name="X" />
+              </button>
+            </div>
+            <div className="modal-body">
+              <label>
+                Order Status
+                <select
+                  value={updateStatus}
+                  onChange={(e) => setUpdateStatus(e.target.value)}
+                >
+                  <option value="PENDING">Pending</option>
+                  <option value="CONFIRMED">Confirmed</option>
+                  <option value="PROCESSING">Processing</option>
+                  <option value="SHIPPED">Shipped</option>
+                  <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                  <option value="DELIVERED">Delivered</option>
+                  <option value="CANCELLED">Cancelled</option>
+                  <option value="RETURNED">Returned</option>
+                </select>
+              </label>
+              <label>
+                Payment Status
+                <select
+                  value={updatePaymentStatus}
+                  onChange={(e) => setUpdatePaymentStatus(e.target.value)}
+                >
+                  <option value="PENDING">Pending</option>
+                  <option value="PAID">Paid</option>
+                  <option value="FAILED">Failed</option>
+                  <option value="REFUNDED">Refunded</option>
+                  <option value="CANCELLED">Cancelled</option>
+                </select>
+              </label>
+            </div>
+            <div className="modal-actions">
+              <button className="secondary-btn" onClick={() => setShowUpdateModal(false)}>
+                Cancel
+              </button>
+              <button
+                className="primary-btn"
+                onClick={handleUpdateOrder}
+                disabled={isActionLoading}
+              >
+                {isActionLoading ? 'Updating…' : 'Update order'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cancel Confirm Dialog */}
+      <ConfirmDialog
+        open={showCancelConfirm}
+        title="Cancel order?"
+        description="This order will be cancelled. If payment was made, it will be refunded."
+        confirmLabel={isActionLoading ? 'Cancelling…' : 'Cancel order'}
+        danger
+        onClose={() => setShowCancelConfirm(false)}
+        onConfirm={handleCancelOrder}
+      />
+
+      {/* Refund Confirm Dialog */}
+      <ConfirmDialog
+        open={showRefundConfirm}
+        title="Refund order?"
+        description="A refund will be processed for this order."
+        confirmLabel={isActionLoading ? 'Refunding…' : 'Refund'}
+        danger
+        onClose={() => setShowRefundConfirm(false)}
+        onConfirm={handleRefundOrder}
+      />
     </div>
   );
 }
