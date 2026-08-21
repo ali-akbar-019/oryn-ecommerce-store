@@ -7,12 +7,14 @@ import { ErrorState } from '@/components/ui/ErrorState';
 import { Loader } from '@/components/ui/Loader';
 import { colors, spacing, typography } from '@/theme';
 import { useOrders } from '@/hooks/useOrders';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const statusLabel = (status: string) => status.replaceAll('_', ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 const formatMoney = (value: string | number, currency: string) => `${currency} ${Number(value).toFixed(2)}`;
 const formatDate = (value: string) => new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(value));
 
 export default function OrdersScreen() {
+  const insets = useSafeAreaInsets();
   const orders = useOrders();
   if (orders.isLoading) return <Loader />;
   if (orders.isError) return <ErrorState title="Orders unavailable" description="We couldn't load your orders. Please try again." />;
@@ -20,7 +22,7 @@ export default function OrdersScreen() {
 
   return (
     <ScrollView
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content,{paddingTop:insets.top+spacing.xl}]}
       refreshControl={<RefreshControl refreshing={orders.isRefetching} onRefresh={() => void orders.refetch()} tintColor={colors.accent} />}
     >
       <Text style={styles.eyebrow}>ACCOUNT</Text>
@@ -44,7 +46,7 @@ export default function OrdersScreen() {
 }
 
 const styles = StyleSheet.create({
-  content:{padding:spacing.xl,paddingTop:spacing.xxxl,backgroundColor:colors.background,flexGrow:1},
+  content:{padding:spacing.xl,backgroundColor:colors.background,flexGrow:1},
   eyebrow:{...typography.label,color:colors.textMuted,letterSpacing:1.5},
   title:{...typography.display,fontSize:34,lineHeight:40,marginTop:7,marginBottom:spacing.xxl},
   order:{borderTopWidth:1,borderColor:colors.border,paddingVertical:18,flexDirection:'row',alignItems:'center'},

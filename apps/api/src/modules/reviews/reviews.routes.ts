@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '@oryn/database';
-import { AppError, asyncHandler, sendData } from '../../common/http.js';
+import { AppError, asStr, asyncHandler, sendData } from '../../common/http.js';
 import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 const schema = z.object({ productId: z.string(), rating: z.number().int().min(1).max(5), title: z.string().trim().max(120).optional(), body: z.string().trim().min(1).max(2000) });
 const updateSchema = schema.pick({ rating: true, title: true, body: true });
 export const reviewsRouter = Router(); reviewsRouter.use(requireAuth);
 reviewsRouter.get('/mine', asyncHandler(async (req,res)=>sendData(res, await prisma.review.findMany({ where:{userId:(req as AuthRequest).user!.id}, include:{product:{select:{id:true,name:true,images:{orderBy:{sortOrder:'asc'},take:1}}},}, orderBy:{createdAt:'desc'} }))));
 reviewsRouter.post('/', asyncHandler(async (req, res) => { const userId = (req as AuthRequest).user!.id; const input = schema.parse(req.body); const purchased = await prisma.orderItem.findFirst({ where: { productId: input.productId, order: { userId, status: 'DELIVERED' } } }); if (!purchased) throw new AppError(403, 'REVIEW_NOT_ELIGIBLE', 'Reviews are available after purchasing and receiving the product.'); const existing = await prisma.review.findFirst({ where: { productId: input.productId, userId } }); if (existing) throw new AppError(409, 'REVIEW_EXISTS', 'You have already reviewed this product.'); sendData(res, await prisma.review.create({ data: { ...input, userId, approved: false } }), 201); }));
-reviewsRouter.patch('/:id', asyncHandler(async(req,res)=>{const userId=(req as AuthRequest).user!.id; const input=updateSchema.parse(req.body); const review=await prisma.review.findFirst({where:{id:req.params.id,userId}}); if(!review) throw new AppError(404,'REVIEW_NOT_FOUND','Review not found.'); sendData(res,await prisma.review.update({where:{id:review.id},data:{...input,approved:false}}));}));
-reviewsRouter.delete('/:id', asyncHandler(async(req,res)=>{const userId=(req as AuthRequest).user!.id; const result=await prisma.review.deleteMany({where:{id:req.params.id,userId}}); if(!result.count) throw new AppError(404,'REVIEW_NOT_FOUND','Review not found.'); res.status(204).send();}));
+reviewsRouter.patch('/:id', asyncHandler(async(req,res)=>{const userId=(req as AuthRequest).user!.id; const input=updateSchema.parse(req.body); const review=await prisma.review.findFirst({where:{id:asStr(req.params.id),userId}}); if(!review) throw new AppError(404,'REVIEW_NOT_FOUND','Review not found.'); sendData(res,await prisma.review.update({where:{id:review.id},data:{...input,approved:false}}));}));
+reviewsRouter.delete('/:id', asyncHandler(async(req,res)=>{const userId=(req as AuthRequest).user!.id; const result=await prisma.review.deleteMany({where:{id:asStr(req.params.id),userId}}); if(!result.count) throw new AppError(404,'REVIEW_NOT_FOUND','Review not found.'); res.status(204).send();}));

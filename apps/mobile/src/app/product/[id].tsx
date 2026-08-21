@@ -3,6 +3,7 @@ import { Dimensions, Pressable, ScrollView, Share, StyleSheet, View } from 'reac
 import { router, useLocalSearchParams } from 'expo-router';
 import { ArrowLeft, Heart, Minus, Plus, Share2, Star, ChevronRight } from 'lucide-react-native';
 import { Image } from 'expo-image';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, typography } from '@/theme';
 import { Button, IconButton, Text, Divider, ErrorState, Skeleton } from '@/components/ui';
 import { ProductCard } from '@/components/product/ProductCard';
@@ -15,6 +16,7 @@ import { useCartStore } from '@/store/cartStore';
 const WIDTH = Dimensions.get('window').width;
 
 export default function ProductDetailScreen() {
+  const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
   const query = useProduct(id ?? '');
   const product = query.data;
@@ -35,14 +37,14 @@ export default function ProductDetailScreen() {
     const found = product?.variants.find((item) => { const values = Object.values(item.attributes ?? {}).map(String); return (!color || values.includes(color)) && (!size || values.includes(size)); });
     if (found) setSelectedVariantId(found.id);
   };
-  if (query.isLoading) return <View style={styles.loading}><Skeleton style={styles.loadingImage}/><View style={styles.loadingBody}><Skeleton style={styles.loadingLine}/><Skeleton style={styles.loadingLine}/><Skeleton style={styles.loadingBlock}/></View></View>;
-  if (query.isError || !product) return <View style={styles.missing}><ErrorState title="Piece unavailable" message="We could not load this product right now." onRetry={() => query.refetch()} /><Button label="Back to shop" onPress={() => router.replace('/shop')} /></View>;
+  if (query.isLoading) return <View style={[styles.loading, { paddingTop: insets.top }]}><Skeleton style={styles.loadingImage}/><View style={styles.loadingBody}><Skeleton style={styles.loadingLine}/><Skeleton style={styles.loadingLine}/><Skeleton style={styles.loadingBlock}/></View></View>;
+  if (query.isError || !product) return <View style={[styles.missing, { paddingTop: insets.top + spacing.xl }]}><ErrorState title="Piece unavailable" message="We could not load this product right now." onRetry={() => query.refetch()} /><Button label="Back to shop" onPress={() => router.replace('/shop')} /></View>;
   const isWishlisted = wishlistIds.has(product.id);
   const related = (relatedQuery.data?.items ?? []).filter((item) => item.id !== product.id).slice(0, 4);
   const image = product.images[activeImage]?.url ?? product.images[0]?.url;
   const stock = variant?.inventory?.quantity ?? variant?.stockQuantity ?? 0;
   return <View style={styles.container}><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-    <View style={styles.imageArea}><Image source={image} style={styles.heroImage} contentFit="cover" transition={200}/><View style={styles.overlayTop}><IconButton icon={ArrowLeft} accessibilityLabel="Go back" onPress={() => router.back()}/><View style={styles.overlayActions}><IconButton icon={Share2} accessibilityLabel="Share product" onPress={async () => { await Share.share({ message: `Explore ${product.name} on ORYN.` }); }}/>
+    <View style={styles.imageArea}><Image source={image} style={styles.heroImage} contentFit="cover" transition={200}/><View style={[styles.overlayTop, { top: insets.top + spacing.sm }]}><IconButton icon={ArrowLeft} accessibilityLabel="Go back" onPress={() => router.back()}/><View style={styles.overlayActions}><IconButton icon={Share2} accessibilityLabel="Share product" onPress={async () => { await Share.share({ message: `Explore ${product.name} on ORYN.` }); }}/>
 <IconButton icon={Heart} accessibilityLabel={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'} onPress={() => isWishlisted ? removeWishlist.mutate(product.id) : addWishlist.mutate(product.id)} /></View></View><ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.thumbs}>{product.images.map((item,index)=><Pressable key={item.id} onPress={()=>setActiveImage(index)} style={[styles.thumb,activeImage===index&&styles.thumbActive]}><Image source={item.url} style={styles.thumbImage}/></Pressable>)}</ScrollView></View>
     <View style={styles.details}><Text style={styles.category}>{product.category.name.toUpperCase()}</Text><Text style={styles.name}>{product.name}</Text><Text style={styles.brand}>{product.brand ?? 'ORYN'}</Text><View style={styles.priceRow}><Text style={styles.price}>{money(variant?.price)}</Text>{variant?.compareAtPrice != null ? <Text style={styles.compare}>{money(variant.compareAtPrice)}</Text> : null}</View><Text style={styles.stock}>{stock > 0 ? `${stock} available` : 'Currently unavailable'}</Text><Text style={styles.description}>{product.description ?? 'A considered ORYN piece designed for everyday use.'}</Text><Divider/>
       {colorValues.length ? <Option title="COLOR"><View style={styles.options}>{colorValues.map((color)=><Pressable key={color} onPress={()=>{setSelectedColor(color);chooseVariant(color,selectedSize)}} style={[styles.colorOption,selectedColor===color&&styles.selectedOption]}><Text style={styles.optionText}>{color}</Text></Pressable>)}</View></Option> : null}

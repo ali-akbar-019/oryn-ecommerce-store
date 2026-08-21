@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '@oryn/database';
-import { AppError, asyncHandler, sendData } from '../../common/http.js';
+import { AppError, asStr, asyncHandler, sendData } from '../../common/http.js';
 import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 import { z } from 'zod';
 
@@ -37,7 +37,7 @@ ordersRouter.get('/', asyncHandler(async (req, res) => {
 ordersRouter.get('/:id', asyncHandler(async (req, res) => {
   const userId = (req as AuthRequest).user!.id;
   const order = await prisma.order.findFirst({
-    where: { id: req.params.id, userId },
+    where: { id: asStr(req.params.id), userId },
     include: {
       items: { include: { product: { select: { id: true, name: true, slug: true, images: { orderBy: { sortOrder: 'asc' }, take: 1 } } } } },
       address: true,
@@ -53,7 +53,7 @@ ordersRouter.get('/:id', asyncHandler(async (req, res) => {
 ordersRouter.post('/', asyncHandler(async (req, res) => {
   const userId = (req as AuthRequest).user!.id;
   const input = checkoutSchema.parse(req.body);
-  const cart = await prisma.cart.findUnique({
+  const cart = await prisma.cart.findFirst({
     where: { userId },
     include: { items: { include: { product: true, variant: { include: { inventory: true } } } } },
   });
@@ -96,7 +96,7 @@ ordersRouter.post('/', asyncHandler(async (req, res) => {
             productId: item.productId,
             variantId: item.variantId,
             productName: item.product.name,
-            variantSnapshot: item.variant.attributes,
+            variantSnapshot: JSON.parse(JSON.stringify(item.variant.attributes)),
             unitPrice: item.variant.price,
             quantity: item.quantity,
             lineTotal: Number(item.variant.price) * item.quantity,

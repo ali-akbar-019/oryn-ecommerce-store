@@ -14,3 +14,10 @@ export function asyncHandler<T extends (req: Request, res: Response, next: NextF
 export function sendData(res: Response, data: unknown, status = 200) {
   return res.status(status).json({ data });
 }
+
+// Express 5's route param / query types allow `string | string[]` (repeated segments).
+// This app only uses single-value params, so normalize to a plain string.
+export function asStr(value: string | string[] | undefined): string {
+  if (Array.isArray(value)) return value[0] ?? '';
+  return value ?? '';
+}

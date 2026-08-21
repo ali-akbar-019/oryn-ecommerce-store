@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '@oryn/database';
-import { AppError, asyncHandler, sendData } from '../../common/http.js';
+import { AppError, asStr, asyncHandler, sendData } from '../../common/http.js';
 import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 
 const itemSchema = z.object({ variantId: z.string().min(1), quantity: z.number().int().min(1).max(99) });
@@ -18,8 +18,14 @@ const cartInclude = {
   },
 } as const;
 
+async function getOrCreateCart(userId: string) {
+  const existing = await prisma.cart.findFirst({ where: { userId } });
+  if (existing) return existing;
+  return prisma.cart.create({ data: { userId } });
+}
+
 async function getCart(userId: string) {
-  return prisma.cart.findUnique({ where: { userId }, include: cartInclude });
+  return prisma.cart.findFirst({ where: { userId }, include: cartInclude });
 }
 
 cartRouter.get('/', asyncHandler(async (req, res) => {
@@ -36,7 +42,7 @@ cartRouter.post('/items', asyncHandler(async (req, res) => {
   const existing = await prisma.cartItem.findFirst({ where: { cart: { userId }, variantId: input.variantId } });
   const nextQuantity = (existing?.quantity ?? 0) + input.quantity;
   if (nextQuantity > available) throw new AppError(409, 'INSUFFICIENT_STOCK', 'The selected quantity is not available.');
-  const cart = await prisma.cart.upsert({ where: { userId }, update: {}, create: { userId } });
+  const cart = await getOrCreateCart(userId);
   await prisma.cartItem.upsert({
     where: { cartId_variantId: { cartId: cart.id, variantId: input.variantId } },
     update: { quantity: nextQuantity },
@@ -48,7 +54,7 @@ cartRouter.post('/items', asyncHandler(async (req, res) => {
 cartRouter.patch('/items/:id', asyncHandler(async (req, res) => {
   const userId = (req as AuthRequest).user!.id;
   const quantity = z.number().int().min(1).max(99).parse(req.body.quantity);
-  const item = await prisma.cartItem.findFirst({ where: { id: req.params.id, cart: { userId } }, include: { variant: { include: { inventory: true } } } });
+  const item = await prisma.cartItem.findFirst({ where: { id: asStr(req.params.id), cart: { userId } }, include: { variant: { include: { inventory: true } } } });
   if (!item) throw new AppError(404, 'CART_ITEM_NOT_FOUND', 'Cart item not found.');
   const available = item.variant.inventory?.quantity ?? item.variant.stockQuantity;
   if (quantity > available) throw new AppError(409, 'INSUFFICIENT_STOCK', 'The selected quantity is not available.');
@@ -58,7 +64,7 @@ cartRouter.patch('/items/:id', asyncHandler(async (req, res) => {
 
 cartRouter.delete('/items/:id', asyncHandler(async (req, res) => {
   const userId = (req as AuthRequest).user!.id;
-  const item = await prisma.cartItem.findFirst({ where: { id: req.params.id, cart: { userId } } });
+  const item = await prisma.cartItem.findFirst({ where: { id: asStr(req.params.id), cart: { userId } } });
   if (!item) throw new AppError(404, 'CART_ITEM_NOT_FOUND', 'Cart item not found.');
   await prisma.cartItem.delete({ where: { id: item.id } });
   sendData(res, await getCart(userId));

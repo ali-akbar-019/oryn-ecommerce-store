@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '@oryn/database';
-import { asyncHandler, sendData } from '../../common/http.js';
+import { asStr, asyncHandler, sendData } from '../../common/http.js';
 
 export const productsRouter = Router();
 productsRouter.get('/', asyncHandler(async (req, res) => {
@@ -16,7 +16,7 @@ productsRouter.get('/', asyncHandler(async (req, res) => {
   sendData(res, { items, page, limit, total, pages: Math.ceil(total / limit) });
 }));
 productsRouter.get('/:id', asyncHandler(async (req, res) => {
-  const product = await prisma.product.findFirst({ where: { id: req.params.id, status: 'ACTIVE' }, include: { category: true, images: { orderBy: { sortOrder: 'asc' } }, variants: { include: { inventory: true }, orderBy: { price: 'asc' } }, attributes: { include: { values: true } }, reviews: { where: { approved: true }, orderBy: { createdAt: 'desc' }, take: 20, include: { user: { select: { firstName: true, lastName: true } } } } } });
+  const product = await prisma.product.findFirst({ where: { id: asStr(req.params.id), status: 'ACTIVE' }, include: { category: true, images: { orderBy: { sortOrder: 'asc' } }, variants: { include: { inventory: true }, orderBy: { price: 'asc' } }, attributes: { include: { values: true } }, reviews: { where: { approved: true }, orderBy: { createdAt: 'desc' }, take: 20, include: { user: { select: { firstName: true, lastName: true } } } } } });
   if (!product) return res.status(404).json({ error: { code: 'PRODUCT_NOT_FOUND', message: 'Product not found.' } });
   sendData(res, product);
 }));

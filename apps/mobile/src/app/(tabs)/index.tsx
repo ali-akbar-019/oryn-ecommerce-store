@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, View, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 import { ArrowRight, Play } from 'lucide-react-native';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, spacing, typography } from '@/theme';
 import { Text, EmptyState, ErrorState, Skeleton } from '@/components/ui';
 import { HomeHeader } from '@/components/navigation/HomeHeader';
@@ -14,6 +15,7 @@ import { useAddWishlist, useRemoveWishlist, useWishlist } from '@/hooks/useComme
 import { toCard } from '@/services/catalog/mappers';
 
 export default function HomeScreen() {
+  const insets = useSafeAreaInsets();
   const productsQuery = useProducts({ page: 1, limit: 8 });
   const categoriesQuery = useCategories();
   const wishlistQuery = useWishlist();
@@ -24,7 +26,7 @@ export default function HomeScreen() {
   const categories = categoriesQuery.data ?? [];
   const toggleWishlist = (id: string) => wishlistIds.has(id) ? removeWishlist.mutate(id) : addWishlist.mutate(id);
 
-  return <ScrollView style={styles.screen} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+  return <ScrollView style={styles.screen} contentContainerStyle={[styles.content, { paddingTop: insets.top + spacing.md }]} showsVerticalScrollIndicator={false}>
     <HomeHeader />
     <View style={styles.intro}><Text style={styles.kicker}>THE NEW EDIT / AUTUMN 2026</Text><Text style={styles.title}>Objects with intention.</Text><Text style={styles.subtitle}>A considered selection of things made to be used, lived with and kept.</Text></View>
     <Pressable style={styles.hero} onPress={() => router.push('/shop')}><Image source="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1400&q=88" style={styles.heroImage} contentFit="cover" transition={220}/><View style={styles.heroShade}/><View style={styles.heroContent}><View style={styles.heroTop}><Text style={styles.heroKicker}>FEATURED COLLECTION</Text><View style={styles.play}><Play size={13} color={colors.white} fill={colors.white}/></View></View><View><Text style={styles.heroTitle}>Quiet forms.{`\n`}Better essentials.</Text><View style={styles.heroLink}><Text style={styles.heroLinkText}>Explore the edit</Text><ArrowRight size={17} color={colors.white}/></View></View></View></Pressable>
