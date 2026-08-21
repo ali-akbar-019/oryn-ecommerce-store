@@ -1,7 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 
-export type OrderStatus = 'PENDING' | 'CONFIRMED' | 'PROCESSING' | 'SHIPPED' | 'OUT_FOR_DELIVERY' | 'DELIVERED' | 'CANCELLED' | 'RETURNED';
+export type OrderStatus =
+  | 'PENDING'
+  | 'CONFIRMED'
+  | 'PROCESSING'
+  | 'SHIPPED'
+  | 'OUT_FOR_DELIVERY'
+  | 'DELIVERED'
+  | 'CANCELLED'
+  | 'RETURNED';
 
 export type OrderHistoryEntry = {
   id: string;
@@ -19,7 +27,14 @@ export type OrderListItem = {
   total: string | number;
   currency: string;
   createdAt: string;
-  items: Array<{ id: string; productName: string; quantity: number; unitPrice: string | number; lineTotal: string | number; variantSnapshot: unknown }>;
+  items: Array<{
+    id: string;
+    productName: string;
+    quantity: number;
+    unitPrice: string | number;
+    lineTotal: string | number;
+    variantSnapshot: unknown;
+  }>;
   statusHistory: OrderHistoryEntry[];
 };
 
@@ -44,13 +59,26 @@ export type OrderDetail = OrderListItem & {
     status: string;
     amount: string | number;
     currency: string;
-    transactions: Array<{ id: string; status: string; providerReference?: string | null; createdAt: string }>;
+    transactions: Array<{
+      id: string;
+      status: string;
+      providerReference?: string | null;
+      createdAt: string;
+    }>;
   } | null;
-  returns: Array<{ id: string; status: string; reason: string; createdAt: string }>;
+  returns: Array<{
+    id: string;
+    status: string;
+    reason: string;
+    createdAt: string;
+  }>;
 };
 
 export function useOrders() {
-  return useQuery({ queryKey: ['orders'], queryFn: () => api.get<OrderListItem[]>('/orders') });
+  return useQuery({
+    queryKey: ['orders'],
+    queryFn: () => api.get<OrderListItem[]>('/orders')
+  });
 }
 
 export function useOrder(id?: string) {

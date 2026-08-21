@@ -8,10 +8,27 @@ export interface TextProps extends RNTextProps {
   color?: string;
 }
 
-export function Text({ style, variant = 'body', color, ...props }: TextProps) {
-  return <RNText {...props} style={[styles.base, typography[variant], color ? { color } : null, style]} />;
+export function Text({
+  style,
+  variant = 'body',
+  color,
+  ...props
+}: TextProps) {
+  return (
+    <RNText
+      {...props}
+      style={[
+        styles.base,
+        typography[variant],
+        color ? { color } : null,
+        style
+      ]}
+    />
+  );
 }
 
 const styles = StyleSheet.create({
-  base: { color: colors.text },
+  base: {
+    color: colors.text
+  },
 });

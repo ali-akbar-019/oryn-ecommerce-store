@@ -10,17 +10,52 @@ interface IconButtonProps {
   style?: ViewStyle;
 }
 
-export function IconButton({ icon: Icon, onPress, accessibilityLabel, variant = 'default', style }: IconButtonProps) {
+export function IconButton({
+  icon: Icon,
+  onPress,
+  accessibilityLabel,
+  variant = 'default',
+  style
+}: IconButtonProps) {
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel} onPress={onPress} style={({ pressed }) => [styles.base, styles[variant], pressed && styles.pressed, style]}>
-      <Icon size={20} color={variant === 'filled' ? colors.white : colors.text} strokeWidth={1.8} />
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.base,
+        styles[variant],
+        pressed && styles.pressed,
+        style
+      ]}
+    >
+      <Icon
+        size={20}
+        color={variant === 'filled' ? colors.white : colors.text}
+        strokeWidth={1.8}
+      />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  base: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: radii.md },
-  default: { backgroundColor: colors.surface, borderColor: colors.border },
-  filled: { backgroundColor: colors.accent, borderColor: colors.accent },
-  pressed: { opacity: 0.78 }
+  base: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: radii.md
+  },
+  default: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border
+  },
+  filled: {
+    backgroundColor: colors.accent,
+    borderColor: colors.accent
+  },
+  pressed: {
+    opacity: 0.78
+  }
 });
