@@ -1,0 +1,6 @@
+updated the package.json becasue the dependencieis you used were not compatible and also they were too old and not working fine
+initilized the expo project in the mobile
+and setup the vite admin panel
+and the express api
+and then set them up after some debugging.
+now they can run 

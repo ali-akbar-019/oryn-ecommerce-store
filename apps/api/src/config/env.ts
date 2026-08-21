@@ -1,5 +1,12 @@
-import 'dotenv/config';
+import { config } from 'dotenv';
+import { join } from 'path';
+import { fileURLToPath } from 'url';
 import { z } from 'zod';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const envPath = join(__dirname, '../../../../.env');
+console.log('Loading .env from:', envPath);
+config({ path: envPath });
 
 const schema = z.object({
   API_PORT: z.coerce.number().default(4000),

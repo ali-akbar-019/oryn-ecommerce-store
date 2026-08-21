@@ -1,0 +1,75 @@
+first of all
+Overall in the application we are using the mock data for now and thats not good i dont want that like this
+we should connect the backend properly with the applicaiton and everything should come from it 
+and also there should be proper sign in 
+sign out
+login etc
+pages 
+and properly everything 
+like edit profile features etc available in the project
+its like a mock applicaiton nowa
+and most of hte links and the arrows indicators do not take u anywhere and they are just there and the pages or teh things are not implemented yet
+
+Bugs:
+the admin panel components and pages have so many bugs and the code is not organized and also the add" btn in all the admin pages when clicked then the dialogue do not appear anywhere and its too bad dude its not styled well
+
+the admin panel is not connected to the backend
+and everything is a mock for now and thats not good
+we can have just the payment in our application as mock for now nothing else dude
+it sh0ould be properly connected to the backend
+
+and secondly the ui has issues first ofa ll change the scroll bar according to the theme or the project
+and secondly the hover effect on something the icon is already white and the white hover make it look invisible or something and the dialogues have issues
+and the lnks and the indicators dont take u anywhere as the functionalities are missing so many
+
+
+it should have proper admin 
+seeded script
+and seed sciprts for some products also for the checkup of the website etc. so taht i dont have to do manuyally
+proper admin login
+validation
+proper screens
+and proper sonner and toasts etc
+so that the ui looks peak and good
+and also make sure taht the fonts sizes are good so that everything is visible
+properly
+
+Application on phone:
+the green hero btn like the checkout or somethin the text color is black and it looks too bad man as the bg is green and the text is black and it looks too bad yar too bad
+and secondly tehe application is not complete
+like there are soo many missing things 
+the home page looks too emppty man
+it should have proper all the details and proper pages should be there man in the application 
+with proper evrything 
+
+and all type of filters should be there and proeprly styled and peak ui ux 
+
+and dude there are like on each page almost all hte features are missing and thats not goodan
+and also there is mock data everywhere and the backend is not connected and which is very bad
+and also in the pages there is syntax issues 
+and the pages are not made properlya
+and the code is properly not organizedd
+dude 
+the application looks emptyu
+and the links
+and indicators etc not works
+and  also things are missing dude
+also dude like proper height widht according to the phone screens and proper everything in proper places
+
+add all the features into the applicaiton
+like login
+register
+sign in with other stuff that will just for now show that will implement later a cute sonner notification custom
+and properly stytled everything 
+dude put efforts to all the pages man
+and i am not asking you to do everything in one go take your time
+.
+take your time 
+and properly plan everything 
+and dont give me too much or rubiish ai theory 
+i want a good products
+and also in the end there should be cleanupo of the files that are not needed alr??
+and now plan
+and in chunks lets move forward 
+alr??
+and put FULL EFFORTS TO THIS PROJECT.

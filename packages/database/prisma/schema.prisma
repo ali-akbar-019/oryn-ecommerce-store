@@ -2,14 +2,55 @@ generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
 }
-datasource db { provider = "mysql" }
 
-enum UserStatus { ACTIVE INACTIVE SUSPENDED }
-enum ProductStatus { DRAFT ACTIVE ARCHIVED }
-enum OrderStatus { PENDING CONFIRMED PROCESSING SHIPPED OUT_FOR_DELIVERY DELIVERED CANCELLED RETURNED }
-enum PaymentStatus { PENDING PAID FAILED REFUNDED CANCELLED }
-enum DiscountType { PERCENTAGE FIXED }
-enum ReturnStatus { REQUESTED APPROVED REJECTED RECEIVED REFUNDED CANCELLED }
+datasource db {
+  provider = "mysql"
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+  RETURNED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum ReturnStatus {
+  REQUESTED
+  APPROVED
+  REJECTED
+  RECEIVED
+  REFUNDED
+  CANCELLED
+}
 
 model User {
   id String @id @default(cuid())
