@@ -13,6 +13,7 @@ type AuthState = {
   register: (input: RegisterInput) => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
+  setUser: (user: User) => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -62,4 +63,5 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ user: null, error: null });
   },
   clearError: () => set({ error: null }),
+  setUser: (user) => set({ user }),
 }));

@@ -1,5 +1,6 @@
 import { CheckCheck, X } from 'lucide-react-native';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useEffect } from 'react';
 import { router } from 'expo-router';
 import { colors, spacing, typography } from '@/theme';
 import { IconButton, Text } from '@/components/ui';
@@ -10,8 +11,10 @@ export default function NotificationsScreen() {
   const items = useNotificationStore((state) => state.items);
   const markRead = useNotificationStore((state) => state.markRead);
   const markAllRead = useNotificationStore((state) => state.markAllRead);
-  const remove = useNotificationStore((state) => state.remove);
-  const unread = items.filter((item) => !item.read).length;
+  const hydrate = useNotificationStore((state) => state.hydrate);
+  const loading = useNotificationStore((state) => state.loading);
+  const unread = useNotificationStore((state) => state.unread);
+  useEffect(() => { hydrate().catch(() => undefined); }, [hydrate]);
 
   return (
     <View style={styles.container}>
@@ -24,7 +27,7 @@ export default function NotificationsScreen() {
         {unread ? <Pressable onPress={markAllRead} style={styles.readAll}><CheckCheck size={15} color={colors.text} /><Text style={styles.readAllText}>Mark all read</Text></Pressable> : null}
       </View>
       <ScrollView contentContainerStyle={styles.list} showsVerticalScrollIndicator={false}>
-        {items.length ? items.map((item) => <NotificationRow key={item.id} item={item} onPress={() => { markRead(item.id); if (item.productId) router.push(`/product/${item.productId}`); }} />) : <View style={styles.empty}><Text style={styles.emptyTitle}>Nothing new.</Text><Text style={styles.emptyBody}>Order updates and carefully selected ORYN notes will appear here.</Text></View>}
+        {loading && !items.length ? <View style={styles.empty}><Text style={styles.emptyTitle}>Loading updates…</Text></View> : items.length ? items.map((item) => <NotificationRow key={item.id} item={item} onPress={() => { markRead(item.id); if (item.deepLink) router.push(item.deepLink as never); }} />) : <View style={styles.empty}><Text style={styles.emptyTitle}>Nothing new.</Text><Text style={styles.emptyBody}>Order updates and carefully selected ORYN notes will appear here.</Text></View>}
       </ScrollView>
     </View>
   );

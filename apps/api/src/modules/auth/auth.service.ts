@@ -27,6 +27,13 @@ export async function register(input: { firstName: string; lastName: string; ema
   return issue(user.id, role.name);
 }
 
+export async function changePassword(userId: string, currentPassword: string, newPassword: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || !(await verifyPassword(currentPassword, user.passwordHash))) throw new AppError(400, 'INVALID_CURRENT_PASSWORD', 'Current password is incorrect.');
+  if (currentPassword === newPassword) throw new AppError(400, 'PASSWORD_UNCHANGED', 'Choose a different password.');
+  await prisma.user.update({ where: { id: userId }, data: { passwordHash: await hashPassword(newPassword) } });
+}
+
 export async function login(emailInput: string, password: string) {
   const user = await prisma.user.findUnique({ where: { email: emailInput.toLowerCase() }, include: { role: true } });
   if (!user || !(await verifyPassword(password, user.passwordHash))) throw new AppError(401, 'INVALID_CREDENTIALS', 'Email or password is incorrect.');

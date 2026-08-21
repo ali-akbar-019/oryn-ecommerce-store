@@ -255,3 +255,15 @@
 - [x] Customer order-status notifications
 - [x] Payment confirmation creates confirmed history entry
 - [x] Order detail shows delivery address, items, payment state, totals, and timeline
+
+## Phase 18 — Verified Reviews, Notifications & Account Security
+- [x] Backend verified-purchase review creation
+- [x] Customer review edit/delete with moderation reset
+- [x] Unique customer/product review constraint
+- [x] Real notification feed/read state
+- [x] Notification preferences persistence
+- [x] Profile editing persistence
+- [x] Password change flow
+- [x] Authenticated account deletion endpoint
+- [ ] Review image uploads (deferred until storage contract exists)
+- [ ] Expo push-token delivery integration (deferred to production notification provider setup)
