@@ -1,1 +1,25 @@
-export function InlineState({title,message,action,onAction}:{title:string;message:string;action?:string;onAction?:()=>void}){return <div className="inline-state"><div><strong>{title}</strong><p>{message}</p></div>{action&&onAction?<button className="secondary-btn" onClick={onAction}>{action}</button>:null}</div>}
+export function InlineState({
+    title,
+    message,
+    action,
+    onAction
+}: {
+    title: string;
+    message: string;
+    action?: string;
+    onAction?: () => void;
+}) {
+    return (
+        <div className="inline-state">
+            <div>
+                <strong>{title}</strong>
+                <p>{message}</p>
+            </div>
+            {action && onAction ? (
+                <button className="secondary-btn" onClick={onAction}>
+                    {action}
+                </button>
+            ) : null}
+        </div>
+    );
+}
