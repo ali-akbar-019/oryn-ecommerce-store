@@ -246,3 +246,12 @@
 - [x] Backend-backed checkout
 - [x] Mock payment confirmation
 - [x] Real order reference on confirmation
+
+## Phase 17 — Orders & Tracking
+- [x] Real customer order history
+- [x] Real order detail screen
+- [x] Server-backed order status history
+- [x] Admin order status creates tracking history
+- [x] Customer order-status notifications
+- [x] Payment confirmation creates confirmed history entry
+- [x] Order detail shows delivery address, items, payment state, totals, and timeline

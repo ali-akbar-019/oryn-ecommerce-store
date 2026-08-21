@@ -71,8 +71,23 @@ adminRouter.patch('/inventory/:variantId', asyncHandler(async(req,res)=>{
 }));
 
 adminRouter.get('/orders', asyncHandler(async(req,res)=>{const status=typeof req.query.status==='string'?req.query.status:undefined;sendData(res,await prisma.order.findMany({where:status?{status:status as never}:undefined,include:{user:{select:{id:true,email:true,firstName:true,lastName:true}},items:true,payment:true,address:true},orderBy:{createdAt:'desc'},take:100}));}));
-adminRouter.get('/orders/:id', asyncHandler(async(req,res)=>{const order=await prisma.order.findUnique({where:{id:req.params.id},include:{user:true,address:true,items:{include:{product:true,variant:true}},payment:{include:{transactions:true}}}});if(!order)throw new AppError(404,'ORDER_NOT_FOUND','Order not found.');sendData(res,order);}));
-adminRouter.patch('/orders/:id', asyncHandler(async(req,res)=>{const input=orderSchema.parse(req.body);const order=await prisma.order.update({where:{id:req.params.id},data:{status:input.status,paymentStatus:input.paymentStatus}});const actor=(req as AuthRequest).user!;await prisma.adminAuditLog.create({data:{actorId:actor.id,action:'UPDATE_ORDER',resource:'Order',resourceId:order.id,metadata:{status:input.status,paymentStatus:input.paymentStatus}}});sendData(res,order);}));
+adminRouter.get('/orders/:id', asyncHandler(async(req,res)=>{const order=await prisma.order.findUnique({where:{id:req.params.id},include:{user:true,address:true,items:{include:{product:true,variant:true}},payment:{include:{transactions:true}},statusHistory:{orderBy:{createdAt:'asc'}}}});if(!order)throw new AppError(404,'ORDER_NOT_FOUND','Order not found.');sendData(res,order);}));
+adminRouter.patch('/orders/:id', asyncHandler(async(req,res)=>{
+  const input=orderSchema.parse(req.body);
+  const current=await prisma.order.findUnique({where:{id:req.params.id}});
+  if(!current) throw new AppError(404,'ORDER_NOT_FOUND','Order not found.');
+  const order=await prisma.$transaction(async tx=>{
+    const updated=await tx.order.update({where:{id:req.params.id},data:{status:input.status,paymentStatus:input.paymentStatus}});
+    if(current.status!==input.status){
+      await tx.orderStatusHistory.create({data:{orderId:updated.id,status:input.status,note:`Order status updated to ${input.status.replaceAll('_',' ').toLowerCase()}.`}});
+      await tx.notification.create({data:{userId:updated.userId,type:'ORDER_UPDATE',title:'Your order was updated',body:`Your order is now ${input.status.replaceAll('_',' ').toLowerCase()}.`,deepLink:`/orders/${updated.id}`}});
+    }
+    return updated;
+  });
+  const actor=(req as AuthRequest).user!;
+  await prisma.adminAuditLog.create({data:{actorId:actor.id,action:'UPDATE_ORDER',resource:'Order',resourceId:order.id,metadata:{status:input.status,paymentStatus:input.paymentStatus}}});
+  sendData(res,order);
+}));
 
 adminRouter.get('/customers', asyncHandler(async(_req,res)=>sendData(res,await prisma.user.findMany({where:{role:{name:'Customer'}},select:{id:true,email:true,firstName:true,lastName:true,status:true,createdAt:true,_count:{select:{orders:true,reviews:true}}},orderBy:{createdAt:'desc'},take:200}))));
 adminRouter.get('/customers/:id', asyncHandler(async(req,res)=>{const customer=await prisma.user.findFirst({where:{id:req.params.id,role:{name:'Customer'}},select:{id:true,email:true,firstName:true,lastName:true,status:true,createdAt:true,addresses:true,orders:{orderBy:{createdAt:'desc'},take:20,include:{items:true,payment:true}},reviews:{orderBy:{createdAt:'desc'},include:{product:{select:{id:true,name:true}}}}}});if(!customer)throw new AppError(404,'CUSTOMER_NOT_FOUND','Customer not found.');sendData(res,customer);}));

@@ -92,3 +92,6 @@ Run `docker compose -f docker-compose.local.yml up -d`, then run the Prisma gene
 The API exposes `GET /health` for process health and `GET /ready` for MySQL readiness.
 
 See `docs/architecture/phase13-production-readiness.md` for the final production checklist.
+
+## Phase 17: Orders and tracking
+After applying the latest Prisma migration, customer order history and order detail are backed by the API. Order status changes are persisted in `OrderStatusHistory` and surfaced as a customer timeline.
