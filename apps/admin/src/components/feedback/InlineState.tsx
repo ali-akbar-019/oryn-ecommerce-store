@@ -1,7 +1,1 @@
-import { AlertCircle, RefreshCw } from 'lucide-react';
-
-type Props = { title: string; description?: string; actionLabel?: string; onAction?: () => void };
-
-export function InlineState({ title, description, actionLabel = 'Try again', onAction }: Props) {
-  return <div className="inline-state"><div className="inline-state-icon"><AlertCircle size={16}/></div><strong>{title}</strong>{description && <span>{description}</span>}{onAction && <button onClick={onAction}><RefreshCw size={13}/>{actionLabel}</button>}</div>;
-}
+export function InlineState({title,message,action,onAction}:{title:string;message:string;action?:string;onAction?:()=>void}){return <div className="inline-state"><div><strong>{title}</strong><p>{message}</p></div>{action&&onAction?<button className="secondary-btn" onClick={onAction}>{action}</button>:null}</div>}

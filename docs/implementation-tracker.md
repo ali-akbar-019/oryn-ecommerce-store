@@ -220,3 +220,21 @@
 - [ ] Provider-specific deployment credentials (deployment-time)
 - [ ] Production Redis/shared idempotency (deployment-time)
 - [ ] Real payment/email/object-storage credentials (deployment-time)
+
+## Phase 14 — Real Customer Data & Authentication Integration
+- [x] Mobile auth hydration and protected navigation
+- [x] Real customer login flow with backend errors
+- [x] Real customer registration with first/last name fields
+- [x] Secure token persistence and refresh handling
+- [x] Real product listing from API
+- [x] Real category filtering from API
+- [x] Real search from API
+- [x] Real product detail from API
+- [x] Real product variants and inventory visibility
+- [x] Server-backed wishlist on home/shop/product/wishlist screens
+- [x] Customer profile uses authenticated user data
+- [x] Customer sign out flow
+- [x] Admin dashboard connected to live backend metrics
+- [ ] Backend cart connected to customer UI
+- [ ] Backend checkout connected to customer UI
+- [ ] Backend orders/tracking connected to customer UI

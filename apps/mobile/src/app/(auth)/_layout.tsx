@@ -1,4 +1,8 @@
-import { Stack } from 'expo-router';
+import { Redirect, Stack } from 'expo-router';
+import { useAuthStore } from '@/store/authStore';
+
 export default function AuthLayout() {
-  return <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }} />;
+  const { hydrated, user } = useAuthStore();
+  if (hydrated && user) return <Redirect href="/(tabs)" />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

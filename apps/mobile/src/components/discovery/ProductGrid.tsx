@@ -1,9 +1,10 @@
-import { FlatList, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { spacing } from '@/theme';
 import { ProductCard } from '@/components/product/ProductCard';
-import type { Product } from '@/data/catalog';
+import type { ApiProduct } from '@/services/catalog/types';
+import { toCard } from '@/services/catalog/mappers';
 
-export function ProductGrid({ products, onPress }: { products: Product[]; onPress: (id: string) => void }) {
-  return <FlatList data={products} numColumns={2} keyExtractor={(item) => item.id} columnWrapperStyle={styles.row} contentContainerStyle={styles.content} renderItem={({ item }) => <View style={styles.cell}><ProductCard product={{ ...item, price: `$${item.price}`, compareAt: item.compareAt ? `$${item.compareAt}` : undefined }} onPress={() => onPress(item.id)} /></View>} />;
+export function ProductGrid({ products, onPress, wishlistIds, onToggleWishlist }: { products: ApiProduct[]; onPress: (id: string) => void; wishlistIds?: Set<string>; onToggleWishlist?: (id: string) => void }) {
+  return <View style={styles.grid}>{products.map((item) => <View key={item.id} style={styles.cell}><ProductCard product={toCard(item)} onPress={() => onPress(item.id)} wishlisted={wishlistIds?.has(item.id)} onToggleWishlist={() => onToggleWishlist?.(item.id)} /></View>)}</View>;
 }
-const styles = StyleSheet.create({ content: { paddingBottom: 28 }, row: { justifyContent: 'space-between', marginBottom: 28 }, cell: { width: '48%' } });
+const styles = StyleSheet.create({ grid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', paddingBottom: 28 }, cell: { width: '48%', marginBottom: 28 } });
