@@ -238,3 +238,11 @@
 - [ ] Backend cart connected to customer UI
 - [ ] Backend checkout connected to customer UI
 - [ ] Backend orders/tracking connected to customer UI
+
+
+## Phase 16
+- [x] Real customer addresses
+- [x] Shipping method API
+- [x] Backend-backed checkout
+- [x] Mock payment confirmation
+- [x] Real order reference on confirmation

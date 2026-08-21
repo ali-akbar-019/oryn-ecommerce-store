@@ -5,6 +5,7 @@ import { requireAuth, type AuthRequest } from '../../middleware/auth';
 import { z } from 'zod';
 const checkoutSchema = z.object({ addressId: z.string(), currency: z.string().length(3).default('USD'), shippingMethodId: z.string().optional() });
 export const ordersRouter = Router(); ordersRouter.use(requireAuth);
+ordersRouter.get('/shipping-methods', asyncHandler(async (_req, res) => sendData(res, await prisma.shippingMethod.findMany({ where: { active: true }, orderBy: [{ price: 'asc' }, { name: 'asc' }] }))));
 ordersRouter.get('/', asyncHandler(async (req, res) => sendData(res, await prisma.order.findMany({ where: { userId: (req as AuthRequest).user!.id }, include: { items: true, payment: true }, orderBy: { createdAt: 'desc' } }))));
 ordersRouter.get('/:id', asyncHandler(async (req, res) => { const order = await prisma.order.findFirst({ where: { id: req.params.id, userId: (req as AuthRequest).user!.id }, include: { items: true, address: true, payment: { include: { transactions: true } }, returns: true } }); if (!order) throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found.'); sendData(res, order); }));
 ordersRouter.post('/', asyncHandler(async (req, res) => {
