@@ -23,7 +23,7 @@ const productSchema = z.object({
     price: z.coerce.number().nonnegative(),
     compareAtPrice: z.coerce.number().nonnegative().optional().nullable(),
     stockQuantity: z.coerce.number().int().min(0).default(0),
-    attributes: z.record(z.string(), z.any()).default({})
+    attributes: z.record(z.string(), z.any())
   })).default([])
 });
 
@@ -237,12 +237,15 @@ adminRouter.get('/dashboard', asyncHandler(async (_req, res) => {
 // ============ Product Management ============
 adminRouter.get('/products', asyncHandler(async (req, res) => {
   const q = typeof req.query.q === 'string' ? req.query.q.trim() : '';
+  const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+  const categoryId = typeof req.query.categoryId === 'string' ? req.query.categoryId : undefined;
   const page = Math.max(Number(req.query.page ?? 1), 1);
   const limit = Math.min(Math.max(Number(req.query.limit ?? 25), 1), 100);
 
-  const where = q
-    ? { OR: [{ name: { contains: q } }, { sku: { contains: q } }] }
-    : {};
+  const where: any = {};
+  if (q) where.OR = [{ name: { contains: q } }, { sku: { contains: q } }];
+  if (status) where.status = status as any;
+  if (categoryId) where.categoryId = categoryId;
 
   const [items, total] = await Promise.all([
     prisma.product.findMany({
@@ -329,12 +332,97 @@ adminRouter.patch('/products/:id', asyncHandler(async (req, res) => {
   sendData(res, product);
 }));
 
-adminRouter.delete('/products/:id', asyncHandler(async (req, res) => {
-  await prisma.product.update({
+// ===== Product Duplicate =====
+adminRouter.post('/products/:id/duplicate', asyncHandler(async (req, res) => {
+  const product = await prisma.product.findUnique({
     where: { id: asStr(req.params.id) },
-    data: { status: 'ARCHIVED' }
+    include: {
+      variants: true,
+      images: true,
+      attributes: { include: { values: true } }
+    }
   });
-  sendData(res, { id: req.params.id, archived: true });
+  if (!product) throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found.');
+
+  const duplicate = await prisma.$transaction(async (tx) => {
+    const newProduct = await tx.product.create({
+      data: {
+        name: `${product.name} (Copy)`,
+        slug: `${product.slug}-copy-${Date.now()}`,
+        brand: product.brand,
+        description: product.description,
+        status: 'DRAFT',
+        categoryId: product.categoryId,
+      }
+    });
+
+    // Copy variants
+    for (const variant of product.variants) {
+      await tx.productVariant.create({
+        data: {
+          productId: newProduct.id,
+          sku: `${variant.sku}-copy-${Date.now()}`,
+          price: variant.price,
+          compareAtPrice: variant.compareAtPrice,
+          stockQuantity: variant.stockQuantity,
+          attributes: variant.attributes,
+          inventory: { create: { quantity: variant.stockQuantity } }
+        }
+      });
+    }
+
+    // Copy images
+    for (const image of product.images) {
+      await tx.productImage.create({
+        data: {
+          productId: newProduct.id,
+          url: image.url,
+          altText: image.altText,
+          sortOrder: image.sortOrder
+        }
+      });
+    }
+
+    return newProduct;
+  });
+
+  sendData(res, duplicate, 201);
+}));
+
+// ===== Bulk Product Update =====
+adminRouter.patch('/products/bulk', asyncHandler(async (req, res) => {
+  const { ids, data } = z.object({
+    ids: z.array(z.string()),
+    data: z.object({ status: z.enum(['DRAFT', 'ACTIVE', 'ARCHIVED']).optional() })
+  }).parse(req.body);
+
+  const result = await prisma.product.updateMany({
+    where: { id: { in: ids } },
+    data: { status: data.status }
+  });
+
+  sendData(res, { updated: result.count });
+}));
+
+// ===== Hard Delete Product =====
+adminRouter.delete('/products/:id', asyncHandler(async (req, res) => {
+  const product = await prisma.product.findUnique({
+    where: { id: asStr(req.params.id) }
+  });
+  if (!product) throw new AppError(404, 'PRODUCT_NOT_FOUND', 'Product not found.');
+
+  if (product.status !== 'DRAFT') {
+    await prisma.product.update({
+      where: { id: asStr(req.params.id) },
+      data: { status: 'ARCHIVED' }
+    });
+  } else {
+    await prisma.product.delete({
+      where: { id: asStr(req.params.id) }
+    });
+  }
+
+  sendData(res, { id: req.params.id, deleted: true });
 }));
 
 // ============ Category Management ============
@@ -367,14 +455,41 @@ adminRouter.delete('/categories/:id', asyncHandler(async (req, res) => {
 }));
 
 // ============ Inventory Management ============
-adminRouter.get('/inventory', asyncHandler(async (_req, res) => {
-  sendData(res, await prisma.productVariant.findMany({
+adminRouter.get('/inventory', asyncHandler(async (req, res) => {
+  const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+  const search = typeof req.query.search === 'string' ? req.query.search.trim() : '';
+
+  const where: any = {};
+  if (search) {
+    where.OR = [
+      { product: { name: { contains: search } } },
+      { sku: { contains: search } }
+    ];
+  }
+
+  const variants = await prisma.productVariant.findMany({
+    where,
     include: {
       product: { select: { id: true, name: true, slug: true } },
       inventory: true
     },
     orderBy: { updatedAt: 'desc' }
-  }));
+  });
+
+  // Filter by stock status
+  let filtered = variants;
+  if (status === 'healthy') {
+    filtered = variants.filter(v => (v.inventory?.quantity ?? v.stockQuantity) > 10);
+  } else if (status === 'low-stock') {
+    filtered = variants.filter(v => {
+      const stock = v.inventory?.quantity ?? v.stockQuantity;
+      return stock <= 10 && stock > 0;
+    });
+  } else if (status === 'out-of-stock') {
+    filtered = variants.filter(v => (v.inventory?.quantity ?? v.stockQuantity) === 0);
+  }
+
+  sendData(res, { items: filtered });
 }));
 
 adminRouter.patch('/inventory/:variantId', asyncHandler(async (req, res) => {
@@ -419,12 +534,69 @@ adminRouter.patch('/inventory/:variantId', asyncHandler(async (req, res) => {
   sendData(res, result);
 }));
 
+// ===== Bulk Inventory Update =====
+adminRouter.patch('/inventory/bulk', asyncHandler(async (req, res) => {
+  const { ids, quantity, reason } = z.object({
+    ids: z.array(z.string()),
+    quantity: z.coerce.number().int().min(0),
+    reason: z.string().min(2).default('BULK_ADJUSTMENT')
+  }).parse(req.body);
+
+  const results = await Promise.all(
+    ids.map(async (id) => {
+      const variant = await prisma.productVariant.findUnique({
+        where: { id },
+        include: { inventory: true }
+      });
+      if (!variant) return null;
+
+      const current = variant.inventory?.quantity ?? variant.stockQuantity;
+      const delta = quantity - current;
+
+      const inventory = variant.inventory
+        ? await prisma.inventory.update({
+          where: { variantId: variant.id },
+          data: { quantity }
+        })
+        : await prisma.inventory.create({
+          data: { variantId: variant.id, quantity }
+        });
+
+      await prisma.productVariant.update({
+        where: { id: variant.id },
+        data: { stockQuantity: quantity }
+      });
+
+      await prisma.inventoryTransaction.create({
+        data: {
+          inventoryId: inventory.id,
+          quantityDelta: delta,
+          reason: reason
+        }
+      });
+
+      return inventory;
+    })
+  );
+
+  sendData(res, { updated: results.filter(Boolean).length });
+}));
+
 // ============ Order Management ============
 adminRouter.get('/orders', asyncHandler(async (req, res) => {
   const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+  const paymentStatus = typeof req.query.paymentStatus === 'string' ? req.query.paymentStatus : undefined;
+  const dateFrom = typeof req.query.dateFrom === 'string' ? req.query.dateFrom : undefined;
+  const dateTo = typeof req.query.dateTo === 'string' ? req.query.dateTo : undefined;
+
+  const where: any = {};
+  if (status) where.status = status as never;
+  if (paymentStatus) where.paymentStatus = paymentStatus as never;
+  if (dateFrom) where.createdAt = { ...where.createdAt, gte: new Date(dateFrom) };
+  if (dateTo) where.createdAt = { ...where.createdAt, lte: new Date(dateTo) };
 
   sendData(res, await prisma.order.findMany({
-    where: status ? { status: status as never } : undefined,
+    where,
     include: {
       user: { select: { id: true, email: true, firstName: true, lastName: true } },
       items: true,
@@ -501,10 +673,73 @@ adminRouter.patch('/orders/:id', asyncHandler(async (req, res) => {
   sendData(res, order);
 }));
 
+// ===== Order Notes =====
+adminRouter.post('/orders/:id/notes', asyncHandler(async (req, res) => {
+  const { note } = z.object({ note: z.string().min(1) }).parse(req.body);
+  const order = await prisma.order.findUnique({ where: { id: asStr(req.params.id) } });
+  if (!order) throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found.');
+
+  await prisma.orderStatusHistory.create({
+    data: {
+      orderId: order.id,
+      status: order.status,
+      note: `[Admin Note] ${note}`
+    }
+  });
+
+  sendData(res, { success: true });
+}));
+
+// ===== Refund Order =====
+adminRouter.post('/orders/:id/refund', asyncHandler(async (req, res) => {
+  const order = await prisma.order.findUnique({
+    where: { id: asStr(req.params.id) },
+    include: { payment: true }
+  });
+  if (!order) throw new AppError(404, 'ORDER_NOT_FOUND', 'Order not found.');
+  if (order.paymentStatus !== 'PAID') {
+    throw new AppError(400, 'NOT_PAID', 'Order is not paid.');
+  }
+
+  const updated = await prisma.order.update({
+    where: { id: order.id },
+    data: { paymentStatus: 'REFUNDED' }
+  });
+
+  await prisma.adminAuditLog.create({
+    data: {
+      actorId: (req as AuthRequest).user!.id,
+      action: 'REFUND_ORDER',
+      resource: 'Order',
+      resourceId: order.id,
+      metadata: { orderId: order.id, amount: Number(order.total) }
+    }
+  });
+
+  sendData(res, updated);
+}));
+
 // ============ Customer Management ============
-adminRouter.get('/customers', asyncHandler(async (_req, res) => {
+adminRouter.get('/customers', asyncHandler(async (req, res) => {
+  const status = typeof req.query.status === 'string' ? req.query.status : undefined;
+  const search = typeof req.query.search === 'string' ? req.query.search.trim() : '';
+  const dateFrom = typeof req.query.dateFrom === 'string' ? req.query.dateFrom : undefined;
+  const dateTo = typeof req.query.dateTo === 'string' ? req.query.dateTo : undefined;
+
+  const where: any = { role: { name: 'Customer' } };
+  if (status) where.status = status as never;
+  if (search) {
+    where.OR = [
+      { firstName: { contains: search } },
+      { lastName: { contains: search } },
+      { email: { contains: search } }
+    ];
+  }
+  if (dateFrom) where.createdAt = { ...where.createdAt, gte: new Date(dateFrom) };
+  if (dateTo) where.createdAt = { ...where.createdAt, lte: new Date(dateTo) };
+
   sendData(res, await prisma.user.findMany({
-    where: { role: { name: 'Customer' } },
+    where,
     select: {
       id: true,
       email: true,
@@ -544,6 +779,59 @@ adminRouter.get('/customers/:id', asyncHandler(async (req, res) => {
 
   if (!customer) throw new AppError(404, 'CUSTOMER_NOT_FOUND', 'Customer not found.');
   sendData(res, customer);
+}));
+
+// ===== Update Customer =====
+adminRouter.patch('/customers/:id', asyncHandler(async (req, res) => {
+  const input = z.object({
+    status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED'])
+  }).parse(req.body);
+
+  const user = await prisma.user.findFirst({
+    where: { id: asStr(req.params.id), role: { name: 'Customer' } }
+  });
+  if (!user) throw new AppError(404, 'CUSTOMER_NOT_FOUND', 'Customer not found.');
+
+  const updated = await prisma.user.update({
+    where: { id: user.id },
+    data: { status: input.status }
+  });
+
+  await prisma.adminAuditLog.create({
+    data: {
+      actorId: (req as AuthRequest).user!.id,
+      action: 'UPDATE_CUSTOMER_STATUS',
+      resource: 'User',
+      resourceId: updated.id,
+      metadata: { status: input.status }
+    }
+  });
+
+  sendData(res, updated);
+}));
+
+// ===== Bulk Customer Update =====
+adminRouter.patch('/customers/bulk', asyncHandler(async (req, res) => {
+  const { ids, data } = z.object({
+    ids: z.array(z.string()),
+    data: z.object({ status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED']) })
+  }).parse(req.body);
+
+  const result = await prisma.user.updateMany({
+    where: { id: { in: ids }, role: { name: 'Customer' } },
+    data: { status: data.status }
+  });
+
+  await prisma.adminAuditLog.create({
+    data: {
+      actorId: (req as AuthRequest).user!.id,
+      action: 'BULK_UPDATE_CUSTOMERS',
+      resource: 'User',
+      metadata: { ids, status: data.status }
+    }
+  });
+
+  sendData(res, { updated: result.count });
 }));
 
 // ============ Inventory History ============
