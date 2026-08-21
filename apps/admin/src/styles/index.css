@@ -1,0 +1,182 @@
+/* ============ Base ============ */
+@import './base/variables.css';
+@import './base/reset.css';
+@import './base/utilities.css';
+
+/* ============ Layout ============ */
+@import './layout/shell.css';
+@import './layout/sidebar.css';
+@import './layout/topbar.css';
+
+/* ============ Components ============ */
+@import './components/buttons.css';
+@import './components/forms.css';
+@import './components/tables.css';
+@import './components/badges.css';
+@import './components/filters.css';
+@import './components/modals.css';
+@import './components/popovers.css';
+
+/* ============ Pages ============ */
+@import './pages/dashboard.css';
+@import './pages/login.css';
+@import './pages/analytics.css';
+@import './pages/editor.css';
+@import './pages/settings.css';
+@import './pages/orders.css';
+@import './pages/products.css';
+@import './pages/inventory.css';
+
+/* ============ Operations ============ */
+@import './operations/workspace.css';
+
+/* ============ Responsive ============ */
+@import './responsive/breakpoints.css';
+
+/* ============ Scrollbar ============ */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #8d8b84 #e9e7e1;
+}
+
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #e9e7e1;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #8d8b84;
+  border: 2px solid #e9e7e1;
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: #67655f;
+}
+
+/* ============ Toast ============ */
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-text);
+  color: var(--color-white);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-modal);
+  font-size: 10px;
+  border-radius: var(--radius-sm);
+}
+
+.toast-dot {
+  width: 7px;
+  height: 7px;
+  background: #9bb99a;
+  border-radius: 50%;
+}
+
+/* ============ Focus Ring ============ */
+.focus-ring:focus-visible {
+  outline: 2px solid #5f5e58;
+  outline-offset: 3px;
+}
+
+/* ============ Skeleton ============ */
+.skeleton {
+  background: linear-gradient(90deg, #ebe9e3 25%, #f5f4f0 50%, #ebe9e3 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shift 1.4s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shift {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* ============ Collapsed State Overrides ============ */
+.collapsed .nav-group a {
+  justify-content: center;
+}
+
+.collapsed .sidebar-bottom {
+  justify-content: center;
+}
+
+.collapsed .sidebar-bottom .icon-btn {
+  display: none;
+}
+
+/* ============ Customer Workspace ============ */
+.customer-workspace .summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.customer-workspace .summary-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.customer-workspace .summary-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.customer-workspace .summary-value {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 500;
+  margin: 8px 0 0;
+}
+
+.customer-workspace .review-item {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8e6df;
+}
+
+.customer-workspace .review-item:last-child {
+  border-bottom: 0;
+}
+
+.customer-workspace .review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customer-workspace .rating {
+  font-size: 12px;
+}
+
+.customer-workspace .review-item p {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.customer-workspace .review-item small {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--color-text-muted);
+}

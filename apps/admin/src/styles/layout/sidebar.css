@@ -1,0 +1,248 @@
+/* ============ Sidebar ============ */
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 264px;
+  background: #191917;
+  color: #f6f5f0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px;
+  z-index: 10;
+  transition: width 0.2s ease;
+  overflow: hidden;
+  overflow: visible;
+}
+
+.collapsed .sidebar {
+  width: 76px;
+}
+
+/* ============ Brand Row ============ */
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 2px 7px 22px;
+  border-bottom: 1px solid #353532;
+}
+
+.brand-row strong {
+  display: block;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+
+.brand-row span {
+  display: block;
+  color: #8e8e87;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #77766f;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.collapse-btn {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* ============ Store Switch ============ */
+.store-switch {
+  height: 44px;
+  margin: 14px 2px 12px;
+  padding: 0 10px;
+  border: 1px solid #343430;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #d9d8d1;
+  font-size: 13px;
+  background: transparent;
+  cursor: pointer;
+  width: 100%;
+  border-radius: var(--radius-sm);
+}
+
+.store-switch:hover {
+  background: #242421;
+}
+
+.store-switch svg {
+  margin-left: auto;
+}
+
+/* ============ Navigation ============ */
+.sidebar nav {
+  overflow: auto;
+  flex: 1;
+  scrollbar-width: thin;
+  scrollbar-color: #5e5d57 #191917;
+}
+
+.sidebar nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar nav::-webkit-scrollbar-track {
+  background: #191917;
+}
+
+.sidebar nav::-webkit-scrollbar-thumb {
+  background: #55544e;
+  border: 1px solid #191917;
+}
+
+.nav-group {
+  margin-bottom: 18px;
+}
+
+.nav-label {
+  padding: 0 10px 7px;
+  color: #6f6f69;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.nav-group a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  height: 38px;
+  padding: 0 10px;
+  color: #a6a59f;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.15s;
+  border-radius: var(--radius-sm);
+}
+
+.nav-group a:hover {
+  color: #fff;
+  background: #242421;
+}
+
+.nav-group a.active {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* ============ Sidebar Bottom ============ */
+.sidebar-bottom {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-top: 1px solid #353532;
+  padding: 15px 6px 2px;
+}
+
+.sidebar-bottom strong {
+  font-size: 13px;
+  display: block;
+}
+
+.sidebar-bottom span {
+  font-size: 10px;
+  color: #777770;
+  display: block;
+  margin-top: 2px;
+}
+
+.admin-avatar {
+  width: 31px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #55544f;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  background: transparent;
+  color: #e8e7e1;
+  cursor: pointer;
+}
+
+.admin-avatar:hover {
+  background: #2b2b27;
+}
+
+.sidebar-bottom .icon-btn {
+  margin-left: auto;
+}
+
+.sidebar-bottom .more-btn {
+  color: #aaa9a2;
+}
+
+.sidebar-bottom .more-btn:hover {
+  background: #2b2b27;
+  color: #fff;
+}
+
+.sidebar-identity {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  min-width: 0;
+}
+
+/* ============ Sidebar Icons ============ */
+.sidebar .icon-btn {
+  color: #aaa9a2;
+}
+
+.sidebar .icon-btn:hover {
+  background: #2b2b27;
+  color: #fff;
+}
+
+.sidebar .collapse-btn {
+  flex: 0 0 34px;
+}
+
+/* ============ Sidebar Popover ============ */
+.sidebar-popover {
+  left: 12px;
+  bottom: 68px;
+  width: 245px;
+  padding: 16px;
+}
+
+.sidebar-popover strong {
+  display: block;
+  font-size: 11px;
+  margin: 5px 0 4px;
+}
+
+.sidebar-popover button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 10px 0;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  text-align: left;
+  color: #4c4a44;
+  cursor: pointer;
+  font-size: 10px;
+  border-top: 1px solid #e8e6df;
+}
+
+.sidebar-popover button:hover {
+  color: var(--color-text);
+}

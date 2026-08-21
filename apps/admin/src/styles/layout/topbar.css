@@ -1,0 +1,118 @@
+/* ============ Topbar ============ */
+.topbar {
+  height: 94px;
+  padding: 19px 34px 17px;
+  border-bottom: 1px solid #dfded8;
+  background: #f7f6f2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.breadcrumb {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.breadcrumb span {
+  color: #4f4e49;
+}
+
+.topbar h1 {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  line-height: 1;
+  margin: 8px 0 0;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* ============ Top Avatar ============ */
+.top-avatar {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #c9c8c1;
+  color: #5d5c56;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.top-avatar:hover {
+  background: #e8e7e2;
+  color: var(--color-text);
+}
+
+/* ============ Top Action Buttons ============ */
+.top-action-btn {
+  position: relative;
+  color: #4f4e48;
+  border: 0;
+  background: transparent;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.top-action-btn:hover {
+  color: var(--color-text);
+  background: #e7e6e0;
+}
+
+/* ============ Notification Badge ============ */
+.notification-trigger {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 3px;
+  right: 2px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border: 2px solid #f7f6f2;
+  background: var(--color-danger);
+  color: var(--color-white);
+  border-radius: 99px;
+  font-size: 7px;
+  display: grid;
+  place-items: center;
+}
+
+/* ============ Icon Button ============ */
+.icon-btn {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.icon-btn:hover {
+  background: #e8e7e2;
+}
+
+.icon-btn.danger {
+  color: var(--color-danger);
+}

@@ -1,0 +1,42 @@
+/* ============ Product Filters ============ */
+.product-filters {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid #e5e3dd;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+/* ============ Order Filters ============ */
+.order-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid #e5e3dd;
+  margin-bottom: 16px;
+  align-items: flex-end;
+}
+
+/* ============ Customer Filters ============ */
+.customer-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid #e5e3dd;
+  margin-bottom: 16px;
+  align-items: flex-end;
+}
+
+/* ============ Inventory Filters ============ */
+.inventory-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid #e5e3dd;
+  margin-bottom: 16px;
+  align-items: flex-end;
+}

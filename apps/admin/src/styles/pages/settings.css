@@ -1,0 +1,98 @@
+/* ============ Settings ============ */
+.settings-page {
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.settings-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settings-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 24px;
+  border-radius: var(--radius-md);
+}
+
+.settings-section-head {
+  border-bottom: 1px solid #e5e3dd;
+  padding-bottom: 17px;
+  margin-bottom: 20px;
+}
+
+.settings-section-head h3 {
+  font-family: var(--font-serif);
+  font-size: 23px;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.settings-section-head p:not(.eyebrow) {
+  color: #817f78;
+  font-size: 10px;
+  margin: 0;
+}
+
+.settings-section .form-grid {
+  max-width: 850px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.setting-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 110px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+
+.setting-card:hover {
+  border-color: #bbb9b1;
+}
+
+.setting-card>svg {
+  margin-left: auto;
+  color: #9a9890;
+}
+
+.setting-icon {
+  width: 37px;
+  height: 37px;
+  border: 1px solid #d9d7d0;
+  display: grid;
+  place-items: center;
+  color: #67655e;
+  border-radius: var(--radius-sm);
+}
+
+.setting-card span {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #9a9891;
+}
+
+.setting-card h3 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 500;
+  margin: 4px 0;
+}
+
+.setting-card p {
+  font-size: 10px;
+  color: #817f78;
+  margin: 0;
+}

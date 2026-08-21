@@ -1,0 +1,61 @@
+/* ============ Inventory ============ */
+.inventory-table-wrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* ============ Low Stock Widget ============ */
+.low-stock-list {
+  padding: 8px 0;
+}
+
+.low-stock-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid #e8e6df;
+  cursor: pointer;
+  text-align: left;
+}
+
+.low-stock-item:hover {
+  background: #f4f3ee;
+}
+
+.low-stock-item:last-child {
+  border-bottom: 0;
+}
+
+.low-stock-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.low-stock-item strong {
+  font-size: 12px;
+  color: #2c2b27;
+}
+
+.low-stock-item span:not(.stock-badge) {
+  font-size: 10px;
+  color: #8a8881;
+}
+
+/* ============ Icon Success ============ */
+.icon-success {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #edf2eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-success);
+}

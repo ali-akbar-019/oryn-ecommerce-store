@@ -1,0 +1,156 @@
+/* ============ Dashboard ============ */
+.dashboard-page {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ============ Stats Grid ============ */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 20px 20px 18px;
+  border-radius: var(--radius-md);
+}
+
+.stat-card>span {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-card strong {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 500;
+  display: block;
+  margin: 12px 0 13px;
+  letter-spacing: -0.02em;
+}
+
+.stat-card div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-card small {
+  color: #9a9891;
+  font-size: 10px;
+}
+
+/* ============ Dashboard Grid ============ */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(330px, 0.8fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+/* ============ Health Grid ============ */
+.health-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border-top: 1px solid #e5e3dd;
+  background: #e5e3dd;
+}
+
+.health-grid button {
+  border: 0;
+  background: var(--color-white);
+  text-align: left;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.health-grid button:hover {
+  background: #faf9f6;
+}
+
+.health-grid span {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #88857e;
+}
+
+.health-grid strong {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 500;
+  color: #24231f;
+}
+
+.health-grid small {
+  font-size: 10px;
+  color: #8a8881;
+}
+
+/* ============ Rank List ============ */
+.rank-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.rank-list button {
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border: 0;
+  border-bottom: 1px solid #e7e5df;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rank-list button:last-child {
+  border-bottom: 0;
+}
+
+.rank-list button:hover span:nth-child(2) {
+  text-decoration: underline;
+}
+
+.rank {
+  font-family: var(--font-serif);
+  color: #99968e;
+}
+
+.rank-list strong {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* ============ Activity Panel ============ */
+.activity-panel .panel-head {
+  border-bottom: 1px solid #e5e3dd;
+}
+
+.activity-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.activity-button>div {
+  flex: 1;
+}

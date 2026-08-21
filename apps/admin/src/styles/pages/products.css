@@ -1,0 +1,27 @@
+/* ============ Product Resources ============ */
+.resource-page {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+/* ============ Product Table Wrapper ============ */
+.product-table-wrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.product-table-wrapper table td:first-child {
+  padding-right: 4px;
+}
+
+/* ============ Stock Quantity ============ */
+.stock-quantity {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.stock-quantity.zero {
+  color: var(--color-danger);
+}

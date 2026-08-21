@@ -1,0 +1,192 @@
+/* ============ Operations Workspace ============ */
+.operations-page {
+  max-width: 1480px;
+  margin: auto;
+}
+
+/* ============ Shipping Cards ============ */
+.shipping-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 12px;
+}
+
+.shipping-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 20px;
+  border-radius: var(--radius-md);
+}
+
+.shipping-icon {
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d6d4cd;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+}
+
+.shipping-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin: 15px 0;
+}
+
+.shipping-card h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.shipping-card p:last-child {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #898780;
+}
+
+.shipping-meta {
+  border-top: 1px solid #e5e3dd;
+  padding-top: 13px;
+  display: flex;
+  gap: 35px;
+}
+
+.shipping-meta span,
+.shipping-meta strong {
+  display: block;
+}
+
+.shipping-meta span {
+  font-size: 8px;
+  text-transform: uppercase;
+  color: #98958e;
+}
+
+.shipping-meta strong {
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+.shipping-actions {
+  border-top: 1px solid #e5e3dd;
+  margin-top: 16px;
+  padding-top: 14px;
+  display: flex;
+  gap: 7px;
+}
+
+/* ============ Role Grid ============ */
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 12px;
+}
+
+.role-card {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 21px;
+  border-radius: var(--radius-md);
+}
+
+.role-card h3 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.role-card>p {
+  font-size: 10px;
+  line-height: 1.5;
+  color: #898780;
+}
+
+.permission-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 14px 0;
+}
+
+.permission-stack span {
+  border: 1px solid var(--color-border);
+  padding: 5px 6px;
+  font-size: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.role-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.role-actions .secondary-btn {
+  flex: 1;
+  justify-content: space-between;
+}
+
+.role-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid #dedcd5;
+  background: #f7f6f1;
+  padding: 15px;
+  border-radius: var(--radius-sm);
+}
+
+.role-summary strong {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.role-summary span {
+  color: #85827b;
+  font-size: 10px;
+}
+
+.permission-detail-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0ded8;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.permission-detail-list>div {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #e8e6df;
+}
+
+.permission-detail-list>div:last-child {
+  border-bottom: 0;
+}
+
+.permission-detail-list svg {
+  color: var(--color-success);
+  flex: none;
+  margin-top: 2px;
+}
+
+.permission-detail-list strong {
+  display: block;
+  font-size: 10px;
+}
+
+.permission-detail-list small {
+  display: block;
+  margin-top: 3px;
+  color: #8a8880;
+  font-size: 9px;
+}

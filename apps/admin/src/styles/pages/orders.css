@@ -1,0 +1,151 @@
+/* ============ Order Workspace ============ */
+.order-workspace {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.order-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.order-meta span:first-child {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+/* ============ Customer Info ============ */
+.customer-info {
+  padding: 20px;
+}
+
+.customer-info p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.customer-info p:first-child {
+  font-size: 15px;
+}
+
+/* ============ Address Info ============ */
+.address-info {
+  padding: 20px;
+}
+
+.address-info p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.address-info p:first-child {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+/* ============ Order Summary ============ */
+.panel-foot {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e3dd;
+}
+
+.order-summary {
+  max-width: 300px;
+  margin-left: auto;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 13px;
+}
+
+.summary-row.total {
+  border-top: 1px solid #e5e3dd;
+  margin-top: 8px;
+  padding-top: 12px;
+  font-size: 15px;
+}
+
+/* ============ Payment Info ============ */
+.payment-info {
+  padding: 20px;
+}
+
+.payment-info p {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+/* ============ Timeline ============ */
+.timeline {
+  padding: 20px;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 16px;
+  padding: 8px 0;
+  position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 24px;
+  bottom: 0;
+  width: 1px;
+  background: #e5e3dd;
+}
+
+.timeline-marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+  flex-shrink: 0;
+  margin-top: 4px;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-item:last-child .timeline-marker {
+  background: var(--color-success);
+}
+
+.timeline-content {
+  flex: 1;
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.timeline-date {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.timeline-note {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+/* ============ Order Actions ============ */
+.order-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}

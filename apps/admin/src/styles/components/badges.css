@@ -1,0 +1,117 @@
+/* ============ Status Badges ============ */
+.status {
+  font-size: 10px;
+  padding: 4px 7px;
+  border: 1px solid #d8d6cf;
+  color: #68665f;
+  background: #f3f2ed;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+}
+
+/* Success States */
+.status.published,
+.status.active,
+.status.delivered,
+.status.paid,
+.status.healthy,
+.status.approved,
+.status.refunded,
+.status.success {
+  border-color: #cbd9c8;
+  background: #edf2eb;
+  color: var(--color-success);
+}
+
+/* Warning States */
+.status.processing,
+.status.pending,
+.status.scheduled,
+.status.low-stock {
+  border-color: #ded4b8;
+  background: #f5f0e2;
+  color: var(--color-warning);
+}
+
+/* Danger States */
+.status.cancelled,
+.status.out-of-stock,
+.status.suspended,
+.status.flagged,
+.status.blocked {
+  border-color: #e0c9c6;
+  background: #f5ecea;
+  color: var(--color-danger);
+}
+
+/* Draft/Archived */
+.status.draft {
+  background: #ecebe5;
+  color: #66655f;
+}
+
+.status.archived {
+  background: #eee5e2;
+  color: #76544f;
+}
+
+/* Inventory specific */
+.status.healthy {
+  border-color: #cbd9c8;
+  background: #edf2eb;
+  color: var(--color-success);
+}
+
+.status.low-stock {
+  border-color: #ded4b8;
+  background: #f5f0e2;
+  color: var(--color-warning);
+}
+
+.status.out-of-stock {
+  border-color: #e0c9c6;
+  background: #f5ecea;
+  color: var(--color-danger);
+}
+
+/* Customer specific */
+.status.inactive {
+  border-color: #ded4b8;
+  background: #f5f0e2;
+  color: var(--color-warning);
+}
+
+.status.suspended {
+  border-color: #e0c9c6;
+  background: #f5ecea;
+  color: var(--color-danger);
+}
+
+/* ============ Badge ============ */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #e5e3dd;
+  border-radius: 10px;
+  font-size: 10px;
+  color: #66645d;
+}
+
+/* ============ Stock Badge ============ */
+.stock-badge {
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.stock-badge.warning {
+  background: #f5f0e2;
+  color: var(--color-warning);
+}
+
+.stock-badge.danger {
+  background: #f5ecea;
+  color: var(--color-danger);
+}

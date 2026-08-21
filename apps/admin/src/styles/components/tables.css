@@ -1,0 +1,153 @@
+/* ============ Tables ============ */
+.table-panel {
+  overflow: hidden;
+}
+
+.table-wrap {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-align: left;
+  background: #f5f4f0;
+}
+
+th,
+td {
+  padding: 13px 17px;
+  border-bottom: 1px solid #e7e5df;
+  white-space: nowrap;
+}
+
+td {
+  color: #66645d;
+}
+
+td strong {
+  font-weight: 600;
+  color: #2c2b27;
+}
+
+/* ============ Clickable Row ============ */
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover td {
+  background: #f7f6f2;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  text-decoration: underline;
+}
+
+/* ============ Checkbox ============ */
+table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-text);
+  cursor: pointer;
+}
+
+/* ============ Table Toolbar ============ */
+.table-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 17px;
+  border-bottom: 1px solid #e5e3dd;
+  background: #f8f7f3;
+}
+
+/* ============ Table Footer ============ */
+.table-footer {
+  padding: 12px 17px;
+  border-top: 1px solid #e5e3dd;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ============ Pagination ============ */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 17px;
+  font-size: 10px;
+  color: #9a9891;
+}
+
+.pagination>div {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.page-current {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #252522;
+  background: #252522;
+  color: var(--color-white);
+  font-size: 10px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+}
+
+/* ============ Table Actions Group ============ */
+.table-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.table-actions .table-action {
+  padding: 4px 6px;
+  color: var(--color-text-secondary);
+}
+
+.table-actions .table-action:hover {
+  color: var(--color-text);
+  background: #e8e7e2;
+}
+
+.table-actions .table-action.danger:hover {
+  color: var(--color-danger);
+  background: #f5ecea;
+}
+
+/* ============ Bulk Actions Bar ============ */
+.bulk-actions-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 17px;
+  background: #f0efe9;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.bulk-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4f4e49;
+}
+
+.bulk-actions-group {
+  display: flex;
+  gap: 6px;
+}

@@ -1,0 +1,124 @@
+/* ============ Form Elements ============ */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.form-grid .full {
+  grid-column: 1/-1;
+}
+
+.form-grid label,
+.variant-fields label,
+.media-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #55544f;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea,
+.variant-fields input,
+.media-fields input,
+.attribute-row input {
+  width: 100%;
+  border: 1px solid #d8d7d0;
+  background: #fafaf7;
+  color: var(--color-text);
+  padding: 12px 12px;
+  outline: none;
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  resize: vertical;
+  border-radius: var(--radius-sm);
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus,
+.variant-fields input:focus,
+.media-fields input:focus,
+.attribute-row input:focus {
+  border-color: #7d7b73;
+  background: var(--color-white);
+}
+
+/* ============ Search Field ============ */
+.search-field {
+  height: 38px;
+  min-width: 300px;
+  background: var(--color-surface);
+  border: 1px solid #d8d6d0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 11px;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  flex: 1;
+}
+
+.search-field input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 12px;
+  width: 100%;
+  color: #333;
+}
+
+/* ============ Toolbar ============ */
+.toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* ============ Inline Select ============ */
+.inline-select {
+  height: 30px;
+  border: 1px solid #d4d2cb;
+  background: #fffefa;
+  font-size: 10px;
+  padding: 0 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============ Select/Filter Groups ============ */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-group label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.filter-group select,
+.filter-group input {
+  height: 32px;
+  border: 1px solid #d8d6d0;
+  background: var(--color-surface);
+  padding: 0 8px;
+  font-size: 11px;
+  border-radius: var(--radius-sm);
+  min-width: 120px;
+}
+
+.filter-group input[type="date"] {
+  min-width: 140px;
+}
