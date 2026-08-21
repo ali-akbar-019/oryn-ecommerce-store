@@ -95,3 +95,8 @@ See `docs/architecture/phase13-production-readiness.md` for the final production
 
 ## Phase 17: Orders and tracking
 After applying the latest Prisma migration, customer order history and order detail are backed by the API. Order status changes are persisted in `OrderStatusHistory` and surfaced as a customer timeline.
+
+
+## Phase 19
+
+The admin application is connected to real commerce data and includes operational management workflows, dashboard metrics, product/category/inventory/order/customer workspaces, review moderation, return updates, and production UX states. See `docs/phase-19.md`.

@@ -19,13 +19,20 @@ export const adminRouter = Router();
 adminRouter.use(requireAdmin);
 
 adminRouter.get('/dashboard', asyncHandler(async (_req,res) => {
-  const [products, orders, customers, paid] = await Promise.all([
+  const [products, orders, customers, paid, pendingOrders, lowStock, recentOrders, topProducts] = await Promise.all([
     prisma.product.count({ where: { status: 'ACTIVE' }}),
     prisma.order.count(),
     prisma.user.count({ where: { role: { name: 'Customer' }}}),
-    prisma.order.aggregate({ _sum: { total: true }, where: { paymentStatus: 'PAID' }})
+    prisma.order.aggregate({ _sum: { total: true }, where: { paymentStatus: 'PAID' }}),
+    prisma.order.count({ where: { status: { in: ['PENDING','CONFIRMED','PROCESSING'] }}}),
+    prisma.productVariant.count({ where: { OR: [{ stockQuantity: 0 }, { stockQuantity: { lt: 10 }}] }}),
+    prisma.order.findMany({ take: 8, orderBy: { createdAt: 'desc' }, select: { id:true,total:true,status:true,paymentStatus:true,createdAt:true,user:{select:{firstName:true,lastName:true,email:true}} } }),
+    prisma.orderItem.groupBy({ by:['productId'], _sum:{quantity:true}, orderBy:{_sum:{quantity:'desc'}}, take:5 })
   ]);
-  sendData(res, { products, orders, customers, revenue: Number(paid._sum.total ?? 0) });
+  const productIds=topProducts.map(x=>x.productId);
+  const productsById=productIds.length?await prisma.product.findMany({where:{id:{in:productIds}},select:{id:true,name:true}}):[];
+  const names=new Map(productsById.map(x=>[x.id,x.name]));
+  sendData(res, { products, orders, customers, revenue: Number(paid._sum.total ?? 0), pendingOrders, lowStock, recentOrders, topProducts: topProducts.map(x=>({productId:x.productId,name:names.get(x.productId)??'Unknown product',quantity:x._sum.quantity??0})) });
 }));
 
 adminRouter.get('/products', asyncHandler(async (req,res) => {
