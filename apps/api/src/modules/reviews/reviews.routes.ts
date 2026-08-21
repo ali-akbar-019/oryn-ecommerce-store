@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '@oryn/database';
-import { AppError, asyncHandler, sendData } from '../../common/http';
-import { requireAuth, type AuthRequest } from '../../middleware/auth';
+import { AppError, asyncHandler, sendData } from '../../common/http.js';
+import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 const schema = z.object({ productId: z.string(), rating: z.number().int().min(1).max(5), title: z.string().trim().max(120).optional(), body: z.string().trim().min(1).max(2000) });
 const updateSchema = schema.pick({ rating: true, title: true, body: true });
 export const reviewsRouter = Router(); reviewsRouter.use(requireAuth);

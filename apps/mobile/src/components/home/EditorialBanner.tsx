@@ -21,7 +21,7 @@ export function EditorialBanner() {
 const styles = StyleSheet.create({
   banner: { height: 330, overflow: 'hidden', position: 'relative', backgroundColor: '#29302d' },
   image: { width: '100%', height: '100%' },
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(13,18,16,0.42)' },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(13,18,16,0.42)' },
   content: { position: 'absolute', left: spacing.xl, right: spacing.xl, top: spacing.xl, bottom: spacing.xl, justifyContent: 'space-between' },
   topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   eyebrow: { ...typography.label, color: colors.white, opacity: 0.82 },

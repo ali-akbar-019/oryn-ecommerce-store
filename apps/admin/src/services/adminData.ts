@@ -35,6 +35,15 @@ export const adminData={
  createAdministrator:(body:unknown)=>api('/admin/administrators',{method:'POST',body:JSON.stringify(body)}),
  roles:()=>api('/admin/roles'),
  createRole:(body:unknown)=>api('/admin/roles',{method:'POST',body:JSON.stringify(body)}),
- auditLogs:()=>api('/admin/audit-logs')
+ auditLogs:()=>api('/admin/audit-logs'),
+ analytics:()=>api('/admin/analytics'),
+ settings:()=>api('/admin/settings'),
+ updateSettings:(body:unknown)=>api('/admin/settings',{method:'PATCH',body:JSON.stringify(body)}),
+ deleteShipping:(id:string)=>api(`/admin/shipping/${id}`,{method:'DELETE'}),
+ deleteNotification:(id:string)=>api(`/admin/notifications/${id}`,{method:'DELETE'}),
+ deleteAdministrator:(id:string)=>api(`/admin/administrators/${id}`,{method:'DELETE'}),
+ deleteRole:(id:string)=>api(`/admin/roles/${id}`,{method:'DELETE'}),
+ markNotificationRead:(id:string)=>api(`/notifications/${id}/read`,{method:'PATCH'}),
+ markAllNotificationsRead:()=>api('/notifications/read-all',{method:'POST'})
 };
 

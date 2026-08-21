@@ -5,14 +5,14 @@ import { colors, radii } from '@/theme';
 interface IconButtonProps {
   icon: LucideIcon;
   onPress?: () => void;
-  label: string;
+  accessibilityLabel: string;
   variant?: 'default' | 'filled';
   style?: ViewStyle;
 }
 
-export function IconButton({ icon: Icon, onPress, label, variant = 'default', style }: IconButtonProps) {
+export function IconButton({ icon: Icon, onPress, accessibilityLabel, variant = 'default', style }: IconButtonProps) {
   return (
-    <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={onPress} style={({ pressed }) => [styles.base, styles[variant], pressed && styles.pressed, style]}>
+    <Pressable accessibilityRole="button" accessibilityLabel={accessibilityLabel} onPress={onPress} style={({ pressed }) => [styles.base, styles[variant], pressed && styles.pressed, style]}>
       <Icon size={20} color={variant === 'filled' ? colors.white : colors.text} strokeWidth={1.8} />
     </Pressable>
   );

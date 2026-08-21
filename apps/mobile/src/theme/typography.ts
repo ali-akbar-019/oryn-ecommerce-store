@@ -9,5 +9,6 @@ export const typography = {
   body: { fontSize: 15, lineHeight: 22, fontWeight: '400' as const },
   bodyMedium: { fontSize: 15, lineHeight: 22, fontWeight: '500' as const },
   caption: { fontSize: 12, lineHeight: 18, fontWeight: '400' as const },
-  label: { fontSize: 12, lineHeight: 16, fontWeight: '600' as const, letterSpacing: 0.6 }
+  label: { fontSize: 12, lineHeight: 16, fontWeight: '600' as const, letterSpacing: 0.6 },
+  overline: { fontSize: 11, lineHeight: 14, fontWeight: '700' as const, letterSpacing: 1.2, textTransform: 'uppercase' as const }
 } as const;

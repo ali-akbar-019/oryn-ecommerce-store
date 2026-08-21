@@ -1,5 +1,5 @@
 import { createHmac, randomBytes } from 'node:crypto';
-import { env } from '../config/env';
+import { env } from '../config/env.js';
 
 function ttl(value: string) {
   const match = value.match(/^(\d+)([smhd])$/);

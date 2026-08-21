@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '@oryn/database';
-import { asyncHandler, sendData } from '../../common/http';
+import { asyncHandler, sendData } from '../../common/http.js';
 
 export const productsRouter = Router();
 productsRouter.get('/', asyncHandler(async (req, res) => {

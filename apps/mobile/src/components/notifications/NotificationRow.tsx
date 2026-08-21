@@ -2,19 +2,31 @@ import { Bell, Box, Heart, LockKeyhole, Megaphone, Truck } from 'lucide-react-na
 import { Pressable, StyleSheet, View } from 'react-native';
 import { colors, spacing, typography } from '@/theme';
 import { Text } from '@/components/ui';
-import type { AppNotification } from '@/data/notifications';
+import type { AppNotification } from '@/store/notificationStore';
 
-const icons = { order: Box, delivery: Truck, promotion: Megaphone, wishlist: Heart, security: LockKeyhole };
+const icons: Record<string, typeof Bell> = { ORDER_UPDATE: Box, DELIVERY: Truck, PROMOTION: Megaphone, WISHLIST: Heart, SECURITY: LockKeyhole };
+
+function timeAgo(iso: string) {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const minutes = Math.max(1, Math.round(diffMs / 60000));
+  if (minutes < 60) return `${minutes} min ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+  const days = Math.round(hours / 24);
+  if (days < 7) return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+  return new Date(iso).toLocaleDateString();
+}
 
 export function NotificationRow({ item, onPress }: { item: AppNotification; onPress?: () => void }) {
-  const Icon = icons[item.kind] ?? Bell;
+  const Icon = icons[item.type] ?? Bell;
+  const unread = !item.readAt;
   return (
-    <Pressable onPress={onPress} style={({ pressed }) => [styles.row, !item.read && styles.unread, pressed && styles.pressed]}>
+    <Pressable onPress={onPress} style={({ pressed }) => [styles.row, unread && styles.unread, pressed && styles.pressed]}>
       <View style={styles.icon}><Icon size={18} color={colors.text} strokeWidth={1.7} /></View>
       <View style={styles.copy}>
-        <View style={styles.titleLine}><Text style={styles.title}>{item.title}</Text>{!item.read ? <View style={styles.dot} /> : null}</View>
+        <View style={styles.titleLine}><Text style={styles.title}>{item.title}</Text>{unread ? <View style={styles.dot} /> : null}</View>
         <Text style={styles.body}>{item.body}</Text>
-        <Text style={styles.time}>{item.time}</Text>
+        <Text style={styles.time}>{timeAgo(item.createdAt)}</Text>
       </View>
     </Pressable>
   );

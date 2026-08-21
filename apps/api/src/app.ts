@@ -1,21 +1,21 @@
 import express from 'express';
-import { authRouter } from './modules/auth/auth.routes';
-import { productsRouter } from './modules/products/products.routes';
-import { categoriesRouter } from './modules/categories/categories.routes';
-import { cartRouter } from './modules/cart/cart.routes';
-import { wishlistRouter } from './modules/wishlist/wishlist.routes';
-import { ordersRouter } from './modules/orders/orders.routes';
-import { reviewsRouter } from './modules/reviews/reviews.routes';
-import { notificationsRouter } from './modules/notifications/notifications.routes';
-import { addressesRouter } from './modules/addresses/addresses.routes';
-import { paymentsRouter } from './modules/payments/payments.routes';
-import { adminRouter } from './modules/admin/admin.routes';
-import { errorHandler } from './middleware/errorHandler';
-import { requestId } from './middleware/requestId';
-import { rateLimit } from './middleware/rateLimit';
-import { idempotency } from './middleware/idempotency';
-import { applySecurity } from './common/security';
-import { healthRouter } from './routes/health.routes';
+import { authRouter } from './modules/auth/auth.routes.js';
+import { productsRouter } from './modules/products/products.routes.js';
+import { categoriesRouter } from './modules/categories/categories.routes.js';
+import { cartRouter } from './modules/cart/cart.routes.js';
+import { wishlistRouter } from './modules/wishlist/wishlist.routes.js';
+import { ordersRouter } from './modules/orders/orders.routes.js';
+import { reviewsRouter } from './modules/reviews/reviews.routes.js';
+import { notificationsRouter } from './modules/notifications/notifications.routes.js';
+import { addressesRouter } from './modules/addresses/addresses.routes.js';
+import { paymentsRouter } from './modules/payments/payments.routes.js';
+import { adminRouter } from './modules/admin/admin.routes.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { requestId } from './middleware/requestId.js';
+import { rateLimit } from './middleware/rateLimit.js';
+import { idempotency } from './middleware/idempotency.js';
+import { applySecurity } from './common/security.js';
+import { healthRouter } from './routes/health.routes.js';
 
 export function createApp() {
   const app = express();

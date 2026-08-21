@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '@oryn/database';
-import { asyncHandler, AppError, sendData } from '../../common/http';
-import { requireAuth, type AuthRequest } from '../../middleware/auth';
-import { loginSchema, refreshSchema, registerSchema } from './auth.schemas';
-import * as service from './auth.service';
+import { asyncHandler, AppError, sendData } from '../../common/http.js';
+import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
+import { loginSchema, refreshSchema, registerSchema } from './auth.schemas.js';
+import * as service from './auth.service.js';
 
 const profileSchema = z.object({ firstName: z.string().trim().min(1).max(80), lastName: z.string().trim().min(1).max(80) });
 const passwordSchema = z.object({ currentPassword: z.string().min(8), newPassword: z.string().min(8).max(128) });

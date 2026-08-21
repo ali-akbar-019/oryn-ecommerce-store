@@ -18,7 +18,7 @@ export function CategoryTile({ title, image, index, onPress }: { title: string; 
 const styles = StyleSheet.create({
   tile: { height: 190, width: 145, overflow: 'hidden', position: 'relative', backgroundColor: colors.surfaceMuted },
   image: { width: '100%', height: '100%' },
-  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.18)' },
+  overlay: { ...StyleSheet.absoluteFill, backgroundColor: 'rgba(0,0,0,0.18)' },
   top: { position: 'absolute', top: 12, left: 12, right: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   index: { ...typography.caption, color: colors.white, opacity: 0.85 },
   title: { position: 'absolute', left: 13, bottom: 14, ...typography.h3, color: colors.white },

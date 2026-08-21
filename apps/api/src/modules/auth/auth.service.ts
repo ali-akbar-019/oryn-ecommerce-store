@@ -1,8 +1,8 @@
 import { randomBytes, scrypt as nodeScrypt, timingSafeEqual } from 'node:crypto';
 import { promisify } from 'node:util';
 import { prisma } from '@oryn/database';
-import { AppError } from '../../common/http';
-import { createAccessToken, createRefreshToken, decodeRefreshToken } from '../../services/tokenService';
+import { AppError } from '../../common/http.js';
+import { createAccessToken, createRefreshToken, decodeRefreshToken } from '../../services/tokenService.js';
 
 const scrypt = promisify(nodeScrypt);
 async function hashPassword(password: string) {

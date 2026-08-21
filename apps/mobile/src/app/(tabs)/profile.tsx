@@ -9,7 +9,7 @@ import { useNotificationStore } from '@/store/notificationStore';
 import { useAuthStore } from '@/store/authStore';
 
 export default function ProfileScreen() {
-  const user = useAuthStore((state) => state.user); const logout = useAuthStore((state) => state.logout); const unread = useNotificationStore((state) => state.items.filter((item) => !item.read).length);
+  const user = useAuthStore((state) => state.user); const logout = useAuthStore((state) => state.logout); const unread = useNotificationStore((state) => state.items.filter((item) => !item.readAt).length);
   return <View style={styles.container}><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
     <View style={styles.header}><View><Text style={styles.eyebrow}>ORYN / ACCOUNT</Text><Text style={styles.title}>Your account</Text></View><Pressable onPress={() => router.push('/notifications')} style={styles.bell}><Bell size={19} color={colors.text}/>{unread ? <View style={styles.dot}/> : null}</Pressable></View>
     <Pressable style={styles.identity} onPress={() => router.push('/profile/edit')}><View style={styles.avatar}><Text style={styles.avatarText}>{user?.firstName?.[0]?.toUpperCase() ?? 'O'}</Text></View><View style={styles.identityCopy}><Text style={styles.name}>{user ? `${user.firstName} ${user.lastName}` : 'ORYN customer'}</Text><Text style={styles.email}>{user?.email ?? ''}</Text></View><ChevronRight size={18} color={colors.textMuted}/></Pressable>

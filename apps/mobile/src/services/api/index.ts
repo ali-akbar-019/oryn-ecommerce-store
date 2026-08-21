@@ -1,4 +1,5 @@
 export * from './client';
+import { api } from './client';
 
 export type Address = {
   id: string; label: string; firstName: string; lastName: string; line1: string; line2?: string | null;

@@ -1,6 +1,26 @@
 import * as SecureStore from 'expo-secure-store';
+import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:4000/api';
+function resolveApiUrl(): string {
+  if (process.env.EXPO_PUBLIC_API_URL) return process.env.EXPO_PUBLIC_API_URL;
+
+  // On a physical device/emulator, "localhost" means the device itself, not your computer.
+  // Derive the dev machine's LAN IP from the same host Expo used to load the JS bundle.
+  const hostUri = Constants.expoConfig?.hostUri ?? (Constants as unknown as { manifest2?: { extra?: { expoClient?: { hostUri?: string } } } }).manifest2?.extra?.expoClient?.hostUri;
+  const host = hostUri?.split(':')?.[0];
+
+  if (host && host !== 'localhost' && host !== '127.0.0.1') {
+    return `http://${host}:4000/api`;
+  }
+  if (Platform.OS === 'android') {
+    // Android emulator loopback to the host machine.
+    return 'http://10.0.2.2:4000/api';
+  }
+  return 'http://localhost:4000/api';
+}
+
+const API_URL = resolveApiUrl();
 const ACCESS_KEY = 'oryn.accessToken';
 const REFRESH_KEY = 'oryn.refreshToken';
 

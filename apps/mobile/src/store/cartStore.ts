@@ -69,7 +69,7 @@ function mapCart(cart: ApiCart): CartItem[] {
   });
 }
 
-export const useCartStore = create<CartState>((set) => ({
+export const useCartStore = create<CartState>((set, get) => ({
   items: [], hydrated: false, loading: false, error: null,
   hydrate: async () => {
     set({ loading: true, error: null });
@@ -97,8 +97,8 @@ export const useCartStore = create<CartState>((set) => ({
     }
   },
   updateQuantity: async (key, quantity) => {
-    if (quantity <= 0) return useCartStore.getState().removeItem(key);
-    const item = useCartStore.getState().items.find((entry) => entry.key === key);
+    if (quantity <= 0) return get().removeItem(key);
+    const item = get().items.find((entry) => entry.key === key);
     if (!item) return;
     set({ loading: true, error: null });
     try {
@@ -111,7 +111,7 @@ export const useCartStore = create<CartState>((set) => ({
     } finally { set({ loading: false }); }
   },
   removeItem: async (key) => {
-    const item = useCartStore.getState().items.find((entry) => entry.key === key);
+    const item = get().items.find((entry) => entry.key === key);
     if (!item) return;
     set({ loading: true, error: null });
     try {

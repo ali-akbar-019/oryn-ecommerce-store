@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { prisma } from '@oryn/database';
-import { AppError, asyncHandler, sendData } from '../../common/http';
-import { requireAuth, type AuthRequest } from '../../middleware/auth';
+import { AppError, asyncHandler, sendData } from '../../common/http.js';
+import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 const productSchema = z.object({ productId: z.string() });
 export const wishlistRouter = Router(); wishlistRouter.use(requireAuth);
 wishlistRouter.get('/', asyncHandler(async (req, res) => { const userId = (req as AuthRequest).user!.id; const wishlist = await prisma.wishlist.findUnique({ where: { userId }, include: { items: { include: { product: { include: { images: true, variants: true } } } } } }); sendData(res, wishlist ?? { id: null, items: [] }); }));

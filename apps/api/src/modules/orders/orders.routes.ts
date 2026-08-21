@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { prisma } from '@oryn/database';
-import { AppError, asyncHandler, sendData } from '../../common/http';
-import { requireAuth, type AuthRequest } from '../../middleware/auth';
+import { AppError, asyncHandler, sendData } from '../../common/http.js';
+import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 import { z } from 'zod';
 
 const checkoutSchema = z.object({

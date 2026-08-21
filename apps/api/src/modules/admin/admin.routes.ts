@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { prisma } from '@oryn/database';
 import { z } from 'zod';
-import { asyncHandler, AppError, sendData } from '../../common/http';
-import { requireAdmin, } from '../../middleware/admin';
-import type { AuthRequest } from '../../middleware/auth';
+import { asyncHandler, AppError, sendData } from '../../common/http.js';
+import { requireAdmin, } from '../../middleware/admin.js';
+import type { AuthRequest } from '../../middleware/auth.js';
 
 const productSchema = z.object({
   name: z.string().min(2), slug: z.string().min(2), brand: z.string().optional().nullable(), description: z.string().optional().nullable(),
@@ -17,6 +17,37 @@ const orderSchema = z.object({ status: z.enum(['PENDING','CONFIRMED','PROCESSING
 
 export const adminRouter = Router();
 adminRouter.use(requireAdmin);
+
+adminRouter.get('/analytics', asyncHandler(async (_req,res) => {
+  const [ordersByStatus, paymentsByStatus, salesByDay, topProducts] = await Promise.all([
+    prisma.order.groupBy({ by: ['status'], _count: { _all: true } }),
+    prisma.payment.groupBy({ by: ['status'], _count: { _all: true }, _sum: { amount: true } }),
+    prisma.order.findMany({ where: { paymentStatus: 'PAID' }, select: { createdAt: true, total: true }, orderBy: { createdAt: 'desc' }, take: 500 }),
+    prisma.orderItem.groupBy({ by: ['productId'], _sum: { quantity: true }, orderBy: { _sum: { quantity: 'desc' } }, take: 10 })
+  ]);
+  const ids = topProducts.map(item => item.productId);
+  const products = ids.length ? await prisma.product.findMany({ where: { id: { in: ids } }, select: { id: true, name: true } }) : [];
+  const names = new Map(products.map(product => [product.id, product.name]));
+  const daily = new Map<string, number>();
+  for (const order of salesByDay) { const key = order.createdAt.toISOString().slice(0, 10); daily.set(key, (daily.get(key) ?? 0) + Number(order.total)); }
+  const sales = [...daily.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([day, revenue]) => ({ day, revenue }));
+  sendData(res, { ordersByStatus, paymentsByStatus, salesByDay: sales, topProducts: topProducts.map(item => ({ productId: item.productId, name: names.get(item.productId) ?? 'Unknown product', quantity: item._sum.quantity ?? 0 })) });
+}));
+
+adminRouter.get('/settings', asyncHandler(async (_req,res) => {
+  let settings = await prisma.storeSetting.findFirst();
+  if (!settings) settings = await prisma.storeSetting.create({ data: {} });
+  const shipping = await prisma.shippingMethod.findMany({ orderBy: { name: 'asc' } });
+  sendData(res, { settings, shipping });
+}));
+adminRouter.patch('/settings', asyncHandler(async (req,res) => {
+  const input = z.object({ storeName: z.string().min(2), currency: z.string().length(3), defaultShippingId: z.string().nullable().optional(), returnWindowDays: z.coerce.number().int().min(0).max(365), sessionHours: z.coerce.number().int().min(1).max(168), editorialTheme: z.boolean() }).parse(req.body);
+  let current = await prisma.storeSetting.findFirst();
+  current = current ? await prisma.storeSetting.update({ where: { id: current.id }, data: input }) : await prisma.storeSetting.create({ data: input });
+  const actor = (req as AuthRequest).user!;
+  await prisma.adminAuditLog.create({ data: { actorId: actor.id, action: 'UPDATE_SETTINGS', resource: 'StoreSetting', resourceId: current.id, metadata: input } });
+  sendData(res, current);
+}));
 
 adminRouter.get('/dashboard', asyncHandler(async (_req,res) => {
   const [products, orders, customers, paid, pendingOrders, lowStock, recentOrders, topProducts] = await Promise.all([
@@ -121,8 +152,11 @@ adminRouter.post('/shipping',asyncHandler(async(req,res)=>sendData(res,await pri
 adminRouter.patch('/shipping/:id',asyncHandler(async(req,res)=>sendData(res,await prisma.shippingMethod.update({where:{id:req.params.id},data:shippingSchema.partial().parse(req.body)}))));
 adminRouter.get('/notifications',asyncHandler(async(_req,res)=>sendData(res,await prisma.notification.findMany({include:{user:{select:{firstName:true,lastName:true,email:true}}},orderBy:{createdAt:'desc'},take:200}))));
 adminRouter.post('/notifications',asyncHandler(async(req,res)=>sendData(res,await prisma.notification.create({data:notificationSchema.parse(req.body)}),201)));
+adminRouter.delete('/notifications/:id',asyncHandler(async(req,res)=>{await prisma.notification.delete({where:{id:req.params.id}});sendData(res,{id:req.params.id,deleted:true})}));
 adminRouter.get('/administrators',asyncHandler(async(_req,res)=>sendData(res,await prisma.user.findMany({where:{role:{name:{in:['Platform Owner','Administrator']}}},include:{role:true},orderBy:{createdAt:'desc'}}))));
 adminRouter.post('/administrators',asyncHandler(async(req,res)=>{const input=adminSchema.parse(req.body);const exists=await prisma.user.findUnique({where:{email:input.email.toLowerCase()}});if(exists)throw new AppError(409,'EMAIL_IN_USE','An account with this email already exists.');const crypto=await import('node:crypto');const {promisify}=await import('node:util');const scrypt=promisify(crypto.scrypt);const salt=crypto.randomBytes(16);const derived=await scrypt(input.password,salt,64) as Buffer;const passwordHash=`${salt.toString('hex')}:${derived.toString('hex')}`;const user=await prisma.user.create({data:{firstName:input.firstName,lastName:input.lastName,email:input.email.toLowerCase(),passwordHash,roleId:input.roleId},include:{role:true}});sendData(res,user,201)}));
+adminRouter.delete('/administrators/:id',asyncHandler(async(req,res)=>{const target=await prisma.user.findUnique({where:{id:req.params.id},include:{role:true}});if(!target)throw new AppError(404,'ADMIN_NOT_FOUND','Administrator not found.');if(target.role.name==='Platform Owner')throw new AppError(403,'OWNER_PROTECTED','Platform Owner cannot be deleted.');await prisma.user.delete({where:{id:target.id}});sendData(res,{id:target.id,deleted:true})}));
 adminRouter.get('/roles',asyncHandler(async(_req,res)=>sendData(res,await prisma.role.findMany({include:{users:{select:{id:true}},permissions:{include:{permission:true}}},orderBy:{name:'asc'}}))));
 adminRouter.post('/roles',asyncHandler(async(req,res)=>sendData(res,await prisma.role.create({data:roleSchema.parse(req.body)}),201)));
+adminRouter.delete('/roles/:id',asyncHandler(async(req,res)=>{const role=await prisma.role.findUnique({where:{id:req.params.id},include:{users:true}});if(!role)throw new AppError(404,'ROLE_NOT_FOUND','Role not found.');if(role.users.length)throw new AppError(409,'ROLE_IN_USE','Reassign administrators before deleting this role.');await prisma.rolePermission.deleteMany({where:{roleId:role.id}});await prisma.role.delete({where:{id:role.id}});sendData(res,{id:role.id,deleted:true})}));
 adminRouter.get('/audit-logs',asyncHandler(async(_req,res)=>sendData(res,await prisma.adminAuditLog.findMany({include:{actor:{select:{firstName:true,lastName:true,email:true}}},orderBy:{createdAt:'desc'},take:300}))));

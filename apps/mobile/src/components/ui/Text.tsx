@@ -1,10 +1,17 @@
-import { Text as RNText, TextProps, StyleSheet } from 'react-native';
+import { Text as RNText, TextProps as RNTextProps, StyleSheet } from 'react-native';
 import { colors, typography } from '@/theme';
 
-export function Text({ style, ...props }: TextProps) {
-  return <RNText {...props} style={[styles.base, style]} />;
+type Variant = 'display' | 'h1' | 'h2' | 'h3' | 'body' | 'bodyMedium' | 'caption' | 'label' | 'overline';
+
+export interface TextProps extends RNTextProps {
+  variant?: Variant;
+  color?: string;
+}
+
+export function Text({ style, variant = 'body', color, ...props }: TextProps) {
+  return <RNText {...props} style={[styles.base, typography[variant], color ? { color } : null, style]} />;
 }
 
 const styles = StyleSheet.create({
-  base: { color: colors.text, ...typography.body },
+  base: { color: colors.text },
 });

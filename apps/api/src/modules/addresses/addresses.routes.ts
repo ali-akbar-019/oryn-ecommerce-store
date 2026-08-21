@@ -1,4 +1,4 @@
-import { Router } from 'express'; import { z } from 'zod'; import { prisma } from '@oryn/database'; import { asyncHandler, sendData } from '../../common/http'; import { requireAuth, type AuthRequest } from '../../middleware/auth';
+import { Router } from 'express'; import { z } from 'zod'; import { prisma } from '@oryn/database'; import { asyncHandler, sendData } from '../../common/http.js'; import { requireAuth, type AuthRequest } from '../../middleware/auth.js';
 const schema = z.object({ label: z.string().min(1).max(40), firstName: z.string().min(1).max(80), lastName: z.string().min(1).max(80), line1: z.string().min(1).max(180), line2: z.string().max(180).optional(), city: z.string().min(1).max(80), state: z.string().max(80).optional(), postalCode: z.string().min(2).max(20), country: z.string().min(2).max(80), phone: z.string().min(7).max(30), isDefault: z.boolean().default(false) });
 export const addressesRouter = Router(); addressesRouter.use(requireAuth);
 addressesRouter.get('/', asyncHandler(async (req,res)=>sendData(res, await prisma.address.findMany({where:{userId:(req as AuthRequest).user!.id},orderBy:[{isDefault:'desc'},{createdAt:'desc'}]}))));

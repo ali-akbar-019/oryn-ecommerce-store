@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
-import { AppError } from '../common/http';
-import { requireAuth, type AuthRequest } from './auth';
+import { AppError } from '../common/http.js';
+import { requireAuth, type AuthRequest } from './auth.js';
 
 const ADMIN_ROLES = new Set(['Platform Owner', 'Administrator']);
 

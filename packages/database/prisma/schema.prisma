@@ -102,6 +102,21 @@ model RolePermission {
   @@id([roleId, permissionId])
 }
 
+
+model StoreSetting {
+  id                  String   @id @default(cuid())
+  storeName           String   @default("ORYN")
+  currency            String   @default("USD")
+  defaultShippingId   String?
+  returnWindowDays    Int      @default(30)
+  sessionHours        Int      @default(8)
+  editorialTheme      Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([defaultShippingId])
+}
+
 model Category {
   id          String     @id @default(cuid())
   name        String

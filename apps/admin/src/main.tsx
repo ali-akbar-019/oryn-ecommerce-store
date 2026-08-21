@@ -11,6 +11,7 @@ import { ProductEditor } from './pages/ProductEditor';
 import { OrderWorkspace } from './pages/OrderWorkspace';
 import { CustomerWorkspace } from './pages/CustomerWorkspace';
 import { OperationsWorkspace } from './pages/OperationsWorkspace';
+import { Analytics } from './pages/Analytics';
 import { useAdminAuth } from './auth/authStore';
 const operationResources=['reviews','discounts','returns','payments','shipping','notifications','administrators','roles','audit-logs'];
 const resources=['products','categories','inventory','orders','customers','reviews','discounts','returns','payments','shipping','notifications','administrators','roles','audit-logs'];
@@ -37,6 +38,7 @@ function App() {
           {resources.map((resource) => (
             <Route key={resource} path={resource} element={resourceElement(resource)} />
           ))}
+          <Route path="analytics" element={<Analytics />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

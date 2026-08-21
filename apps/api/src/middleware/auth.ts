@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express';
 import { createHmac, timingSafeEqual } from 'node:crypto';
-import { AppError } from '../common/http';
-import { env } from '../config/env';
+import { AppError } from '../common/http.js';
+import { env } from '../config/env.js';
 
 function decode(token: string, secret: string) {
   const [body, signature] = token.split('.');
