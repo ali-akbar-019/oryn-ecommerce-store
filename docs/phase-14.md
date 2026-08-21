@@ -17,3 +17,13 @@ Cart, checkout, order history/tracking and admin operational mutation UX remain 
 
 ## Validation note
 The repository was inspected and modified directly, but this environment does not have `pnpm` installed, so dependency installation and TypeScript/Expo compilation could not be executed here. Run `pnpm install` in the project root before local verification.
+
+## Phase 15 — Real Cart Integration
+
+- Connected mobile cart state to authenticated backend cart APIs.
+- Added server-side stock validation for add/update operations.
+- Cart item quantities now persist in Prisma instead of local-only state.
+- Product detail add-to-bag now sends the selected variant to the API.
+- Cart hydrates after authentication and refreshes after mutations.
+- Cart UI now surfaces backend errors and mutation state.
+- Backend cart mutations return the current cart snapshot for reliable client synchronization.
