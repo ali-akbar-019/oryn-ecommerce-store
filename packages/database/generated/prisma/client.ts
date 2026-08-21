@@ -62,6 +62,11 @@ export type Permission = Prisma.PermissionModel
  */
 export type RolePermission = Prisma.RolePermissionModel
 /**
+ * Model StoreSetting
+ * 
+ */
+export type StoreSetting = Prisma.StoreSettingModel
+/**
  * Model Category
  * 
  */

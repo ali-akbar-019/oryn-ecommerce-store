@@ -102,21 +102,22 @@ model RolePermission {
   @@id([roleId, permissionId])
 }
 
-
+// ============ Store Settings ============
 model StoreSetting {
-  id                  String   @id @default(cuid())
-  storeName           String   @default("ORYN")
-  currency            String   @default("USD")
-  defaultShippingId   String?
-  returnWindowDays    Int      @default(30)
-  sessionHours        Int      @default(8)
-  editorialTheme      Boolean  @default(true)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                String   @id @default(cuid())
+  storeName         String   @default("ORYN")
+  currency          String   @default("USD")
+  defaultShippingId String?
+  returnWindowDays  Int      @default(30)
+  sessionHours      Int      @default(8)
+  editorialTheme    Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([defaultShippingId])
 }
 
+// ============ Categories ============
 model Category {
   id          String     @id @default(cuid())
   name        String
@@ -132,6 +133,7 @@ model Category {
   @@index([parentId])
 }
 
+// ============ Products ============
 model Product {
   id            String             @id @default(cuid())
   name          String
@@ -203,6 +205,7 @@ model ProductAttributeValue {
   @@unique([attributeId, value])
 }
 
+// ============ Cart ============
 model Cart {
   id        String     @id @default(cuid())
   userId    String?
@@ -229,6 +232,7 @@ model CartItem {
   @@unique([cartId, variantId])
 }
 
+// ============ Wishlist ============
 model Wishlist {
   id        String         @id @default(cuid())
   userId    String         @unique
@@ -249,6 +253,7 @@ model WishlistItem {
   @@unique([wishlistId, productId])
 }
 
+// ============ Address ============
 model Address {
   id         String   @id @default(cuid())
   userId     String
@@ -271,6 +276,7 @@ model Address {
   @@index([userId])
 }
 
+// ============ Orders ============
 model Order {
   id            String               @id @default(cuid())
   userId        String
@@ -325,6 +331,7 @@ model OrderStatusHistory {
   @@index([orderId, createdAt])
 }
 
+// ============ Payments ============
 model Payment {
   id           String               @id @default(cuid())
   orderId      String               @unique
@@ -351,6 +358,7 @@ model PaymentTransaction {
   @@index([paymentId, createdAt])
 }
 
+// ============ Coupons ============
 model Coupon {
   id             String        @id @default(cuid())
   code           String        @unique
@@ -379,6 +387,7 @@ model CouponUsage {
   @@index([couponId, userId])
 }
 
+// ============ Reviews ============
 model Review {
   id        String   @id @default(cuid())
   productId String
@@ -396,6 +405,7 @@ model Review {
   @@index([userId])
 }
 
+// ============ Returns ============
 model Return {
   id        String       @id @default(cuid())
   orderId   String
@@ -423,6 +433,7 @@ model ReturnItem {
   @@index([returnId])
 }
 
+// ============ Notifications ============
 model Notification {
   id        String    @id @default(cuid())
   userId    String
@@ -448,6 +459,7 @@ model NotificationPreference {
   updatedAt     DateTime @updatedAt
 }
 
+// ============ Inventory ============
 model Inventory {
   id           String                 @id @default(cuid())
   variantId    String                 @unique
@@ -470,6 +482,7 @@ model InventoryTransaction {
   @@index([inventoryId, createdAt])
 }
 
+// ============ Shipping ============
 model ShippingMethod {
   id          String   @id @default(cuid())
   name        String
@@ -480,6 +493,7 @@ model ShippingMethod {
   updatedAt   DateTime @updatedAt
 }
 
+// ============ Audit Logs ============
 model AdminAuditLog {
   id         String   @id @default(cuid())
   actorId    String

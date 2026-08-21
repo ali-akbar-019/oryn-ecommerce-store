@@ -55,6 +55,7 @@ export const ModelName = {
   Role: 'Role',
   Permission: 'Permission',
   RolePermission: 'RolePermission',
+  StoreSetting: 'StoreSetting',
   Category: 'Category',
   Product: 'Product',
   ProductVariant: 'ProductVariant',
@@ -139,6 +140,21 @@ export const RolePermissionScalarFieldEnum = {
 } as const
 
 export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
+
+
+export const StoreSettingScalarFieldEnum = {
+  id: 'id',
+  storeName: 'storeName',
+  currency: 'currency',
+  defaultShippingId: 'defaultShippingId',
+  returnWindowDays: 'returnWindowDays',
+  sessionHours: 'sessionHours',
+  editorialTheme: 'editorialTheme',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StoreSettingScalarFieldEnum = (typeof StoreSettingScalarFieldEnum)[keyof typeof StoreSettingScalarFieldEnum]
 
 
 export const CategoryScalarFieldEnum = {
@@ -558,6 +574,16 @@ export const RolePermissionOrderByRelevanceFieldEnum = {
 } as const
 
 export type RolePermissionOrderByRelevanceFieldEnum = (typeof RolePermissionOrderByRelevanceFieldEnum)[keyof typeof RolePermissionOrderByRelevanceFieldEnum]
+
+
+export const StoreSettingOrderByRelevanceFieldEnum = {
+  id: 'id',
+  storeName: 'storeName',
+  currency: 'currency',
+  defaultShippingId: 'defaultShippingId'
+} as const
+
+export type StoreSettingOrderByRelevanceFieldEnum = (typeof StoreSettingOrderByRelevanceFieldEnum)[keyof typeof StoreSettingOrderByRelevanceFieldEnum]
 
 
 export const CategoryOrderByRelevanceFieldEnum = {
