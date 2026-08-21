@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './styles.css';
 import { AdminShell } from './layout/AdminShell';
 import { Dashboard } from './pages/Dashboard';
-import { ResourcePage } from './pages/ResourcePage';
 import { Settings } from './pages/Settings';
 import { Login } from './pages/Login';
 import { ManagementPage } from './pages/ManagementPage';
@@ -22,7 +21,7 @@ function Protected() {
 function resourceElement(resource: string) {
   if (['products', 'categories', 'inventory', 'orders', 'customers'].includes(resource)) return <ManagementPage resource={resource as never} />;
   if (operationResources.includes(resource)) return <OperationsWorkspace resource={resource as never} />;
-  return <ResourcePage resource={resource} />;
+  return <OperationsWorkspace resource={resource as never} />;
 }
 function App() {
   return (

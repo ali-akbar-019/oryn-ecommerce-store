@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
-import { SlidersHorizontal } from 'lucide-react-native';
 import { colors, spacing, typography } from '@/theme';
-import { Text, IconButton, ErrorState, EmptyState, Skeleton } from '@/components/ui';
+import { Text, ErrorState, EmptyState, Skeleton } from '@/components/ui';
 import { SearchBar } from '@/components/discovery/SearchBar';
 import { CategoryFilter } from '@/components/discovery/CategoryFilter';
 import { ProductGrid } from '@/components/discovery/ProductGrid';
@@ -23,7 +22,7 @@ export default function ShopScreen() {
   const categories = [{ id: 'all', name: 'All', slug: 'all' }, ...(categoriesQuery.data ?? [])];
   const toggleWishlist = (id: string) => wishlistIds.has(id) ? removeWishlist.mutate(id) : addWishlist.mutate(id);
   return <View style={styles.container}><ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
-    <View style={styles.header}><View><Text style={styles.eyebrow}>THE COLLECTION</Text><Text style={styles.title}>Shop</Text></View><IconButton icon={SlidersHorizontal} accessibilityLabel="Filters" onPress={() => {}} /></View>
+    <View style={styles.header}><View><Text style={styles.eyebrow}>THE COLLECTION</Text><Text style={styles.title}>Shop</Text></View></View>
     <SearchBar onPress={() => router.push('/search')} />
     <View style={styles.filter}><CategoryFilter value={category} items={categories.map((item) => ({ name: item.name, slug: item.slug }))} onChange={setCategory} /></View>
     <View style={styles.meta}><Text style={styles.count}>{productsQuery.data?.total ?? 0} pieces</Text><Text style={styles.sort}>Newest</Text></View>

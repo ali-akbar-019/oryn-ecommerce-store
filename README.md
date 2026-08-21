@@ -100,3 +100,7 @@ After applying the latest Prisma migration, customer order history and order det
 ## Phase 19
 
 The admin application is connected to real commerce data and includes operational management workflows, dashboard metrics, product/category/inventory/order/customer workspaces, review moderation, return updates, and production UX states. See `docs/phase-19.md`.
+
+
+## Final QA
+See `FINAL-QA.md` for the final audit, intentional mock boundary, and local/Android verification checklist.
