@@ -68,6 +68,7 @@ export const ModelName = {
   Address: 'Address',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  OrderStatusHistory: 'OrderStatusHistory',
   Payment: 'Payment',
   PaymentTransaction: 'PaymentTransaction',
   Coupon: 'Coupon',
@@ -308,6 +309,17 @@ export const OrderItemScalarFieldEnum = {
 } as const
 
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
+
+
+export const OrderStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type OrderStatusHistoryScalarFieldEnum = (typeof OrderStatusHistoryScalarFieldEnum)[keyof typeof OrderStatusHistoryScalarFieldEnum]
 
 
 export const PaymentScalarFieldEnum = {
@@ -697,6 +709,15 @@ export const OrderItemOrderByRelevanceFieldEnum = {
 } as const
 
 export type OrderItemOrderByRelevanceFieldEnum = (typeof OrderItemOrderByRelevanceFieldEnum)[keyof typeof OrderItemOrderByRelevanceFieldEnum]
+
+
+export const OrderStatusHistoryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  note: 'note'
+} as const
+
+export type OrderStatusHistoryOrderByRelevanceFieldEnum = (typeof OrderStatusHistoryOrderByRelevanceFieldEnum)[keyof typeof OrderStatusHistoryOrderByRelevanceFieldEnum]
 
 
 export const PaymentOrderByRelevanceFieldEnum = {

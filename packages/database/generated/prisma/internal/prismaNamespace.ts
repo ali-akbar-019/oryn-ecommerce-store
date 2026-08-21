@@ -414,6 +414,7 @@ export const ModelName = {
   Address: 'Address',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  OrderStatusHistory: 'OrderStatusHistory',
   Payment: 'Payment',
   PaymentTransaction: 'PaymentTransaction',
   Coupon: 'Coupon',
@@ -442,7 +443,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "role" | "permission" | "rolePermission" | "category" | "product" | "productVariant" | "productImage" | "productAttribute" | "productAttributeValue" | "cart" | "cartItem" | "wishlist" | "wishlistItem" | "address" | "order" | "orderItem" | "payment" | "paymentTransaction" | "coupon" | "couponUsage" | "review" | "return" | "returnItem" | "notification" | "notificationPreference" | "inventory" | "inventoryTransaction" | "shippingMethod" | "adminAuditLog"
+    modelProps: "user" | "role" | "permission" | "rolePermission" | "category" | "product" | "productVariant" | "productImage" | "productAttribute" | "productAttributeValue" | "cart" | "cartItem" | "wishlist" | "wishlistItem" | "address" | "order" | "orderItem" | "orderStatusHistory" | "payment" | "paymentTransaction" | "coupon" | "couponUsage" | "review" | "return" | "returnItem" | "notification" | "notificationPreference" | "inventory" | "inventoryTransaction" | "shippingMethod" | "adminAuditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1568,6 +1569,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    OrderStatusHistory: {
+      payload: Prisma.$OrderStatusHistoryPayload<ExtArgs>
+      fields: Prisma.OrderStatusHistoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.OrderStatusHistoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.OrderStatusHistoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+        }
+        findFirst: {
+          args: Prisma.OrderStatusHistoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.OrderStatusHistoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+        }
+        findMany: {
+          args: Prisma.OrderStatusHistoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>[]
+        }
+        create: {
+          args: Prisma.OrderStatusHistoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+        }
+        createMany: {
+          args: Prisma.OrderStatusHistoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.OrderStatusHistoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+        }
+        update: {
+          args: Prisma.OrderStatusHistoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.OrderStatusHistoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.OrderStatusHistoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.OrderStatusHistoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$OrderStatusHistoryPayload>
+        }
+        aggregate: {
+          args: Prisma.OrderStatusHistoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateOrderStatusHistory>
+        }
+        groupBy: {
+          args: Prisma.OrderStatusHistoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderStatusHistoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.OrderStatusHistoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.OrderStatusHistoryCountAggregateOutputType> | number
+        }
+      }
+    }
     Payment: {
       payload: Prisma.$PaymentPayload<ExtArgs>
       fields: Prisma.PaymentFieldRefs
@@ -2676,6 +2743,17 @@ export const OrderItemScalarFieldEnum = {
 export type OrderItemScalarFieldEnum = (typeof OrderItemScalarFieldEnum)[keyof typeof OrderItemScalarFieldEnum]
 
 
+export const OrderStatusHistoryScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  status: 'status',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type OrderStatusHistoryScalarFieldEnum = (typeof OrderStatusHistoryScalarFieldEnum)[keyof typeof OrderStatusHistoryScalarFieldEnum]
+
+
 export const PaymentScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
@@ -3063,6 +3141,15 @@ export const OrderItemOrderByRelevanceFieldEnum = {
 } as const
 
 export type OrderItemOrderByRelevanceFieldEnum = (typeof OrderItemOrderByRelevanceFieldEnum)[keyof typeof OrderItemOrderByRelevanceFieldEnum]
+
+
+export const OrderStatusHistoryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  note: 'note'
+} as const
+
+export type OrderStatusHistoryOrderByRelevanceFieldEnum = (typeof OrderStatusHistoryOrderByRelevanceFieldEnum)[keyof typeof OrderStatusHistoryOrderByRelevanceFieldEnum]
 
 
 export const PaymentOrderByRelevanceFieldEnum = {
@@ -3462,6 +3549,7 @@ export type GlobalOmitConfig = {
   address?: Prisma.AddressOmit
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
+  orderStatusHistory?: Prisma.OrderStatusHistoryOmit
   payment?: Prisma.PaymentOmit
   paymentTransaction?: Prisma.PaymentTransactionOmit
   coupon?: Prisma.CouponOmit
