@@ -1,156 +1,499 @@
-/* ============ Dashboard ============ */
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
+
 .dashboard-page {
+  width: 100%;
   max-width: 1500px;
   margin: 0 auto;
 }
 
-/* ============ Stats Grid ============ */
+
+/* =========================================================
+   STATS GRID
+   ========================================================= */
+
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 12px;
 }
 
 .stat-card {
+  position: relative;
+
+  min-width: 0;
+
+  padding: 20px 20px 18px;
+
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  padding: 20px 20px 18px;
   border-radius: var(--radius-md);
+
+  overflow: hidden;
+
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
-.stat-card>span {
-  font-size: 11px;
+.stat-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0 auto 0 0;
+
+  width: 2px;
+
+  background: #9b998f;
+
+  opacity: 0;
+
+  transition: opacity 0.18s ease;
+}
+
+.stat-card:hover {
+  border-color: #c9c7bf;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 8px 24px rgba(35, 34, 30, 0.05);
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-card > span {
+  display: block;
+
   color: var(--color-text-secondary);
+
+  font-size: 10px;
+  line-height: 1.2;
+
+  font-weight: 600;
+
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.09em;
 }
 
 .stat-card strong {
+  display: block;
+
+  margin: 11px 0 12px;
+
+  color: var(--color-text);
+
   font-family: var(--font-serif);
   font-size: 32px;
+  line-height: 1;
+
   font-weight: 500;
-  display: block;
-  margin: 12px 0 13px;
-  letter-spacing: -0.02em;
+
+  letter-spacing: -0.025em;
 }
 
 .stat-card div {
   display: flex;
   align-items: center;
   gap: 8px;
+
+  min-height: 16px;
 }
 
 .stat-card small {
-  color: #9a9891;
+  color: #96938b;
+
   font-size: 10px;
+  line-height: 1.35;
 }
 
-/* ============ Dashboard Grid ============ */
+.stat-card .positive {
+  color: #587054;
+}
+
+.stat-card .negative {
+  color: #8a5b57;
+}
+
+
+/* =========================================================
+   DASHBOARD MAIN GRID
+   ========================================================= */
+
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(330px, 0.8fr);
+
+  grid-template-columns:
+    minmax(0, 1.6fr)
+    minmax(300px, 0.8fr);
+
   gap: 12px;
+
   margin-bottom: 12px;
 }
 
-/* ============ Health Grid ============ */
+.dashboard-grid > * {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   HEALTH GRID
+   ========================================================= */
+
 .health-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
   gap: 1px;
+
   border-top: 1px solid #e5e3dd;
+
   background: #e5e3dd;
 }
 
 .health-grid button {
+  position: relative;
+
+  min-width: 0;
+
   border: 0;
+
   background: var(--color-white);
-  text-align: left;
+
   padding: 20px;
+
   display: flex;
   flex-direction: column;
-  gap: 5px;
+
+  gap: 6px;
+
+  text-align: left;
+
   cursor: pointer;
+
+  transition:
+    background 0.16s ease,
+    padding-left 0.16s ease;
+}
+
+.health-grid button::after {
+  content: "→";
+
+  position: absolute;
+
+  right: 18px;
+  top: 18px;
+
+  color: #aaa79f;
+
+  font-size: 13px;
+
+  opacity: 0;
+
+  transform: translateX(-4px);
+
+  transition:
+    opacity 0.16s ease,
+    transform 0.16s ease;
 }
 
 .health-grid button:hover {
   background: #faf9f6;
+
+  padding-left: 22px;
+}
+
+.health-grid button:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .health-grid span {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  display: block;
+
   color: #88857e;
+
+  font-size: 9px;
+  line-height: 1.2;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
 }
 
 .health-grid strong {
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: 500;
+  display: block;
+
   color: #24231f;
+
+  font-family: var(--font-serif);
+
+  font-size: 28px;
+  line-height: 1;
+
+  font-weight: 500;
+
+  letter-spacing: -0.02em;
 }
 
 .health-grid small {
-  font-size: 10px;
   color: #8a8881;
+
+  font-size: 10px;
+  line-height: 1.4;
 }
 
-/* ============ Rank List ============ */
+
+/* =========================================================
+   RANK LIST
+   ========================================================= */
+
 .rank-list {
   display: flex;
   flex-direction: column;
+
+  min-width: 0;
 }
 
 .rank-list button {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
   display: grid;
-  grid-template-columns: 32px 1fr auto;
+
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+
   align-items: center;
+
   gap: 12px;
+
   padding: 14px 0;
+
   border: 0;
   border-bottom: 1px solid #e7e5df;
-  background: none;
+
+  background: transparent;
+
   text-align: left;
+
   cursor: pointer;
+
+  transition:
+    padding 0.16s ease,
+    background 0.16s ease;
 }
 
 .rank-list button:last-child {
   border-bottom: 0;
 }
 
+.rank-list button:hover {
+  padding-left: 5px;
+}
+
 .rank-list button:hover span:nth-child(2) {
   text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rank-list button span:nth-child(2) {
+  min-width: 0;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
 }
 
 .rank {
-  font-family: var(--font-serif);
+  display: block;
+
   color: #99968e;
+
+  font-family: var(--font-serif);
+
+  font-size: 15px;
+
+  line-height: 1;
 }
 
 .rank-list strong {
-  font-size: 10px;
   color: var(--color-text-secondary);
+
+  font-size: 10px;
+  line-height: 1.2;
+
   font-weight: 500;
+
+  white-space: nowrap;
 }
 
-/* ============ Activity Panel ============ */
+
+/* =========================================================
+   ACTIVITY PANEL
+   ========================================================= */
+
+.activity-panel {
+  min-width: 0;
+}
+
 .activity-panel .panel-head {
   border-bottom: 1px solid #e5e3dd;
 }
 
 .activity-button {
   width: 100%;
+  min-width: 0;
+
   border: 0;
+
   background: transparent;
+
+  padding: 13px 0;
+
   text-align: left;
+
   cursor: pointer;
+
   display: flex;
   align-items: center;
+
+  gap: 12px;
+
+  transition:
+    background 0.16s ease,
+    padding-left 0.16s ease;
+}
+
+.activity-button:hover {
+  padding-left: 5px;
+}
+
+.activity-button > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-button strong {
+  display: block;
+
+  color: var(--color-text);
+
+  font-size: 11px;
+  line-height: 1.35;
+
+  font-weight: 600;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-button span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #99968e;
+
+  font-size: 9px;
+  line-height: 1.35;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   DASHBOARD PANEL CONTENT
+   ========================================================= */
+
+.dashboard-page .panel {
+  min-width: 0;
+}
+
+.dashboard-page .panel-head {
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   gap: 12px;
 }
 
-.activity-button>div {
-  flex: 1;
+.dashboard-page .panel-head > * {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   DASHBOARD RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .health-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 18px;
+  }
+
+  .stat-card strong {
+    font-size: 28px;
+  }
+
+  .rank-list button {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+  }
+}
+
+
+@media (max-width: 620px) {
+
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card strong {
+    font-size: 30px;
+  }
+
+  .health-grid button {
+    padding: 18px;
+  }
+
+  .health-grid button:hover {
+    padding-left: 20px;
+  }
+
+  .dashboard-page .panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

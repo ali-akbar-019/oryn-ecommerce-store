@@ -1,61 +1,292 @@
-/* ============ Inventory ============ */
+/* =========================================================
+   INVENTORY
+   ========================================================= */
+
 .inventory-table-wrapper {
+  width: 100%;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
 
-/* ============ Low Stock Widget ============ */
+/* =========================================================
+   LOW STOCK WIDGET
+   ========================================================= */
+
 .low-stock-list {
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 .low-stock-item {
   width: 100%;
-  border: 0;
-  background: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  border-bottom: 1px solid #e8e6df;
-  cursor: pointer;
-  text-align: left;
-}
+  min-height: 64px;
 
-.low-stock-item:hover {
-  background: #f4f3ee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding: 12px 20px;
+
+  border: 0;
+  border-bottom: 1px solid #e8e6df;
+
+  background: transparent;
+
+  color: var(--color-text);
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    padding-left 0.15s ease;
 }
 
 .low-stock-item:last-child {
   border-bottom: 0;
 }
 
-.low-stock-item div {
+.low-stock-item:hover {
+  background: #f7f6f2;
+  padding-left: 23px;
+}
+
+.low-stock-item:focus-visible {
+  outline: 2px solid #77766f;
+  outline-offset: -2px;
+}
+
+/* Product information */
+
+.low-stock-item > div {
+  min-width: 0;
+
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .low-stock-item strong {
+  display: block;
+
+  max-width: 100%;
+
+  color: #292824;
+
   font-size: 12px;
-  color: #2c2b27;
+  line-height: 1.35;
+  font-weight: 600;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .low-stock-item span:not(.stock-badge) {
-  font-size: 10px;
+  display: block;
+
   color: #8a8881;
+
+  font-size: 10px;
+  line-height: 1.3;
 }
 
-/* ============ Icon Success ============ */
+/* =========================================================
+   STOCK BADGE
+   ========================================================= */
+
+.stock-badge {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 54px;
+  height: 25px;
+
+  padding: 0 9px;
+
+  border: 1px solid #dedbd2;
+  border-radius: 999px;
+
+  background: #f7f6f2;
+
+  color: #66645d;
+
+  font-size: 9px;
+  line-height: 1;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.stock-badge.low {
+  border-color: #e5cfc7;
+  background: #faf1ee;
+  color: #a35f4e;
+}
+
+.stock-badge.critical {
+  border-color: #e1bdb7;
+  background: #f9eae7;
+  color: #9b4439;
+}
+
+/* =========================================================
+   STOCK QUANTITY
+   ========================================================= */
+
+.stock-quantity {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: 13px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.stock-quantity.zero {
+  color: var(--color-danger);
+}
+
+/* =========================================================
+   INVENTORY STATUS
+   ========================================================= */
+
+.inventory-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.inventory-status::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  flex: 0 0 6px;
+
+  border-radius: 50%;
+
+  background: #aaa8a0;
+}
+
+.inventory-status.in-stock {
+  color: #667660;
+}
+
+.inventory-status.in-stock::before {
+  background: #8ea58a;
+}
+
+.inventory-status.low-stock {
+  color: #9a6d50;
+}
+
+.inventory-status.low-stock::before {
+  background: #c49570;
+}
+
+.inventory-status.out-of-stock {
+  color: var(--color-danger);
+}
+
+.inventory-status.out-of-stock::before {
+  background: var(--color-danger);
+}
+
+/* =========================================================
+   ICON SUCCESS
+   ========================================================= */
+
 .icon-success {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
-  background: #edf2eb;
-  display: flex;
+
+  flex: 0 0 40px;
+
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  border: 1px solid #dce6d9;
+  border-radius: 50%;
+
+  background: #f1f5ef;
   color: var(--color-success);
+}
+
+.icon-success svg {
+  width: 18px;
+  height: 18px;
+
+  stroke-width: 1.8;
+}
+
+/* =========================================================
+   INVENTORY RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .inventory-table-wrapper {
+    border-radius: var(--radius-sm);
+  }
+
+  .low-stock-item {
+    min-height: 60px;
+    padding: 11px 15px;
+  }
+
+  .low-stock-item:hover {
+    padding-left: 17px;
+  }
+
+  .low-stock-item strong {
+    font-size: 11px;
+  }
+
+  .low-stock-item span:not(.stock-badge) {
+    font-size: 9px;
+  }
+
+  .stock-badge {
+    min-width: 50px;
+    height: 23px;
+    padding: 0 8px;
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .low-stock-item {
+    gap: 10px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .low-stock-item:hover {
+    padding-left: 14px;
+  }
+
+  .stock-badge {
+    min-width: 46px;
+    padding: 0 6px;
+  }
+
+  .icon-success {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
 }

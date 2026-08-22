@@ -1,258 +1,670 @@
-/* ============ Product Editor ============ */
+/* =========================================================
+   PRODUCT EDITOR
+   ========================================================= */
+
 .editor-page {
+  width: 100%;
   max-width: 1380px;
   margin: 0 auto;
 }
 
+
+/* =========================================================
+   EDITOR HEADER
+   ========================================================= */
+
 .editor-head {
   display: flex;
-  justify-content: space-between;
-  gap: 30px;
   align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 30px;
+
   margin-bottom: 28px;
 }
 
 .editor-head h2 {
   margin: 5px 0 7px;
+
   font-family: var(--font-serif);
-  font-size: 38px;
+  font-size: clamp(30px, 3vw, 38px);
+  line-height: 1.05;
   font-weight: 400;
+
   letter-spacing: -0.03em;
 }
 
 .editor-head p:not(.eyebrow) {
   max-width: 670px;
-  color: var(--color-text-secondary);
-  line-height: 1.65;
+
   margin: 0;
+
+  color: var(--color-text-secondary);
+
   font-size: 13px;
+  line-height: 1.65;
 }
 
 .editor-actions {
   display: flex;
+  align-items: center;
+
   gap: 8px;
+
   flex-shrink: 0;
 }
 
+
+/* =========================================================
+   EDITOR LAYOUT
+   ========================================================= */
+
 .editor-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 280px;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    280px;
+
+  align-items: start;
+
   gap: 18px;
 }
 
-/* ============ Editor Tabs ============ */
+
+/* =========================================================
+   EDITOR TABS
+   ========================================================= */
+
 .editor-tabs {
   height: 50px;
+
   display: flex;
+  align-items: stretch;
+
   gap: 25px;
-  border-bottom: 1px solid #d9d8d2;
+
   margin-bottom: 18px;
+
+  border-bottom: 1px solid #d9d8d2;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+}
+
+.editor-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .editor-tabs button {
-  border: 0;
-  background: none;
-  color: var(--color-text-secondary);
-  font-size: 12px;
-  padding: 0 2px;
   position: relative;
+
+  flex: 0 0 auto;
+
+  height: 50px;
+
+  padding: 0 2px;
+
+  border: 0;
+
+  background: transparent;
+
+  color: var(--color-text-secondary);
+
+  font-size: 12px;
+  font-weight: 500;
+
   cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.15s ease;
+}
+
+.editor-tabs button:hover {
+  color: var(--color-text);
 }
 
 .editor-tabs button.active {
   color: var(--color-text);
+
   font-weight: 700;
 }
 
-.editor-tabs button.active:after {
-  content: '';
+.editor-tabs button.active::after {
+  content: "";
+
   position: absolute;
+
   left: 0;
   right: 0;
   bottom: -1px;
+
   height: 2px;
+
   background: var(--color-text);
 }
 
-/* ============ Editor Panels ============ */
+
+/* =========================================================
+   EDITOR PANELS
+   ========================================================= */
+
 .editor-panel {
+  width: 100%;
+
   background: var(--color-white);
+
   border: 1px solid #deddd7;
+
   padding: 25px;
+
   border-radius: var(--radius-md);
 }
 
 .editor-side {
-  background: var(--color-white);
-  border: 1px solid #deddd7;
-  padding: 21px;
+  width: 100%;
+
   align-self: start;
+
+  background: var(--color-white);
+
+  border: 1px solid #deddd7;
+
+  padding: 21px;
+
   border-radius: var(--radius-md);
 }
 
-.editor-side+.editor-side {
+.editor-side + .editor-side {
   margin-top: 12px;
 }
 
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
+
 .section-title {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
+
   gap: 20px;
+
   padding-bottom: 20px;
   margin-bottom: 21px;
+
   border-bottom: 1px solid #e5e4de;
 }
 
 .section-title h3,
 .editor-side h3 {
-  font-family: var(--font-serif);
-  font-size: 21px;
-  font-weight: 400;
   margin: 4px 0;
+
+  font-family: var(--font-serif);
+
+  font-size: 21px;
+  line-height: 1.25;
+  font-weight: 400;
+
+  color: var(--color-text);
 }
 
 .section-title p:not(.eyebrow),
 .editor-side p:not(.eyebrow) {
-  font-size: 11px;
-  color: #85847d;
-  line-height: 1.6;
   margin: 4px 0 0;
+
+  color: #85847d;
+
+  font-size: 11px;
+  line-height: 1.6;
 }
 
-/* ============ Variant Card ============ */
+
+/* =========================================================
+   VARIANT LIST
+   ========================================================= */
+
 .variant-card {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) 32px;
+
+  grid-template-columns:
+    42px
+    minmax(0, 1fr)
+    32px;
+
+  align-items: start;
+
   gap: 14px;
-  border: 1px solid #e1e0da;
-  padding: 15px;
+
   margin-bottom: 10px;
+  padding: 15px;
+
+  border: 1px solid #e1e0da;
+
   border-radius: var(--radius-sm);
+
+  background: #fff;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.variant-card:hover {
+  border-color: #d3d1ca;
+  background: #fdfcf9;
 }
 
 .variant-index,
 .media-number {
-  font-family: var(--font-serif);
-  color: #8a8982;
-  font-size: 15px;
   padding-top: 9px;
+
+  font-family: var(--font-serif);
+
+  font-size: 15px;
+
+  color: #8a8982;
 }
 
 .variant-fields {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+
+  grid-template-columns:
+    1.4fr
+    1fr
+    1fr
+    1fr;
+
   gap: 12px;
+
+  min-width: 0;
 }
 
 .variant-fields .full {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
 }
 
-/* ============ Media Row ============ */
+
+/* =========================================================
+   MEDIA LIST
+   ========================================================= */
+
 .media-list {
   display: flex;
   flex-direction: column;
+
   gap: 10px;
 }
 
 .media-row {
   display: grid;
-  grid-template-columns: 42px 90px minmax(0, 1fr) 32px;
+
+  grid-template-columns:
+    42px
+    90px
+    minmax(0, 1fr)
+    32px;
+
   align-items: center;
+
   gap: 14px;
-  border: 1px solid #e1e0da;
+
   padding: 10px;
+
+  border: 1px solid #e1e0da;
+
   border-radius: var(--radius-sm);
+
+  background: #fff;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.media-row:hover {
+  border-color: #d3d1ca;
+  background: #fdfcf9;
 }
 
 .media-preview {
-  height: 70px;
   width: 90px;
-  background: #f1f0eb;
+  height: 70px;
+
   display: grid;
   place-items: center;
-  color: #aaa8a0;
+
   overflow: hidden;
+
+  background: #f1f0eb;
+
+  color: #aaa8a0;
+
   border-radius: var(--radius-sm);
 }
 
 .media-preview img {
   width: 100%;
   height: 100%;
+
+  display: block;
+
   object-fit: cover;
 }
 
 .media-fields {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 12px;
+
+  min-width: 0;
 }
 
-/* ============ Attribute Row ============ */
+
+/* =========================================================
+   ATTRIBUTE ROW
+   ========================================================= */
+
 .attribute-row {
   display: grid;
-  grid-template-columns: 1fr 2fr 32px;
+
+  grid-template-columns:
+    minmax(120px, 1fr)
+    minmax(0, 2fr)
+    32px;
+
   gap: 10px;
+
   margin-bottom: 10px;
 }
 
+
+/* =========================================================
+   EMPTY EDITOR STATE
+   ========================================================= */
+
 .empty-editor {
   min-height: 180px;
-  border: 1px dashed #d5d4ce;
+
   display: flex;
+  flex-direction: column;
+
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+
   gap: 7px;
-  color: #8a8982;
-  text-align: center;
+
+  padding: 25px;
+
+  border: 1px dashed #d5d4ce;
+
   border-radius: var(--radius-sm);
+
+  color: #8a8982;
+
+  text-align: center;
 }
 
 .empty-editor strong {
-  font-family: var(--font-serif);
   color: #494843;
+
+  font-family: var(--font-serif);
+
   font-size: 16px;
   font-weight: 400;
 }
 
 .empty-editor span {
+  max-width: 360px;
+
   font-size: 11px;
+  line-height: 1.5;
 }
 
-/* ============ Editor Sidebar Stats ============ */
+
+/* =========================================================
+   EDITOR SIDEBAR STATS
+   ========================================================= */
+
 .side-divider {
   height: 1px;
-  background: #e5e4de;
+
   margin: 18px 0;
+
+  background: #e5e4de;
 }
 
 .side-stat {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+
+  gap: 15px;
+
   padding: 8px 0;
-  font-size: 11px;
+
   color: var(--color-text-secondary);
+
+  font-size: 11px;
 }
 
 .side-stat strong {
   color: var(--color-text);
+
+  font-weight: 600;
+
+  text-align: right;
 }
+
+
+/* =========================================================
+   BACK LINK
+   ========================================================= */
 
 .back-link {
   display: inline-flex;
   align-items: center;
+
   gap: 7px;
-  border: 0;
-  background: none;
-  padding: 0;
+
   margin: 0 0 14px;
+  padding: 0;
+
+  border: 0;
+
+  background: transparent;
+
   color: var(--color-text-secondary);
+
   font-size: 11px;
+
   cursor: pointer;
+
+  transition:
+    color 0.15s ease;
 }
 
 .back-link:hover {
   color: var(--color-text);
+}
+
+
+/* =========================================================
+   EDITOR RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-side {
+    display: none;
+  }
+
+  .editor-head {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 18px;
+  }
+
+  .editor-actions {
+    align-self: flex-start;
+  }
+
+  .variant-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .media-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .editor-head {
+    margin-bottom: 22px;
+  }
+
+  .editor-head h2 {
+    font-size: 30px;
+  }
+
+  .editor-head p:not(.eyebrow) {
+    font-size: 12px;
+  }
+
+  .editor-actions {
+    width: 100%;
+  }
+
+  .editor-actions button {
+    flex: 1;
+  }
+
+  .editor-panel {
+    padding: 18px;
+  }
+
+  .section-title {
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding-bottom: 16px;
+    margin-bottom: 17px;
+  }
+
+  .variant-card {
+    grid-template-columns:
+      30px
+      minmax(0, 1fr)
+      30px;
+
+    gap: 9px;
+
+    padding: 12px;
+  }
+
+  .variant-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .variant-fields .full {
+    grid-column: auto;
+  }
+
+  .media-row {
+    grid-template-columns:
+      30px
+      70px
+      minmax(0, 1fr)
+      30px;
+
+    gap: 9px;
+
+    padding: 9px;
+  }
+
+  .media-preview {
+    width: 70px;
+    height: 58px;
+  }
+
+  .media-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .attribute-row {
+    grid-template-columns:
+      1fr
+      1fr
+      30px;
+  }
+}
+
+
+@media (max-width: 480px) {
+
+  .editor-head h2 {
+    font-size: 27px;
+  }
+
+  .editor-tabs {
+    gap: 20px;
+  }
+
+  .editor-panel {
+    padding: 15px;
+  }
+
+  .variant-card {
+    grid-template-columns:
+      1fr
+      30px;
+  }
+
+  .variant-index {
+    display: none;
+  }
+
+  .media-row {
+    grid-template-columns:
+      1fr
+      30px;
+  }
+
+  .media-number {
+    display: none;
+  }
+
+  .media-preview {
+    width: 100%;
+    height: 120px;
+
+    grid-column: 1 / -1;
+  }
+
+  .media-fields {
+    grid-column: 1 / -1;
+  }
+
+  .attribute-row {
+    grid-template-columns: 1fr 30px;
+  }
+
+  .attribute-row > *:first-child {
+    grid-column: 1 / -1;
+  }
 }

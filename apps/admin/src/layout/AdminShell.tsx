@@ -152,17 +152,17 @@ export function AdminShell() {
             <Icon name={collapsed ? 'PanelLeftOpen' : 'PanelLeftClose'} />
           </button>
         </div>
+        {!collapsed && (
+          <button className="store-switch" onClick={() => navigate('/')}>
+            <span className="status-dot" />
 
-        <button className="store-switch" onClick={() => navigate('/')}>
-          <span className="status-dot" />
-          {!collapsed && (
             <>
               <span>ORYN Store</span>
               <Icon name="ChevronsUpDown" size={14} />
             </>
-          )}
-        </button>
 
+          </button>
+        )}
         <nav>
           {groups.map(group => (
             <div className="nav-group" key={group.label}>

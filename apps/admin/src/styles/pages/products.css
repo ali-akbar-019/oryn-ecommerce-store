@@ -1,27 +1,273 @@
-/* ============ Product Resources ============ */
+/* =========================================================
+   PRODUCT RESOURCES PAGE
+   ========================================================= */
+
 .resource-page {
+  width: 100%;
   max-width: 1500px;
   margin: 0 auto;
 }
 
-/* ============ Product Table Wrapper ============ */
+
+/* =========================================================
+   PRODUCT TABLE WRAPPER
+   ========================================================= */
+
 .product-table-wrapper {
+  width: 100%;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
 
-.product-table-wrapper table td:first-child {
-  padding-right: 4px;
+
+/* Keep table content aligned with the product layout */
+
+.product-table-wrapper table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
 }
 
-/* ============ Stock Quantity ============ */
-.stock-quantity {
+
+/* Product name / first column */
+
+.product-table-wrapper table td:first-child,
+.product-table-wrapper table th:first-child {
+  padding-left: 20px;
+}
+
+.product-table-wrapper table td:first-child {
+  padding-right: 8px;
+}
+
+
+/* =========================================================
+   PRODUCT TABLE ROWS
+   ========================================================= */
+
+.product-table-wrapper tbody tr {
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.product-table-wrapper tbody tr:hover {
+  background: #faf9f6;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE / THUMBNAIL
+   ========================================================= */
+
+.product-table-wrapper .product-image,
+.product-table-wrapper .product-thumb {
+  width: 40px;
+  height: 40px;
+
+  flex: 0 0 40px;
+
+  object-fit: cover;
+
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+
+  background: #f1f0eb;
+}
+
+
+/* =========================================================
+   PRODUCT NAME
+   ========================================================= */
+
+.product-table-wrapper .product-name {
+  color: var(--color-text);
+
+  font-size: 12px;
   font-weight: 600;
+
+  line-height: 1.4;
+}
+
+.product-table-wrapper .product-name:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================================
+   PRODUCT SKU
+   ========================================================= */
+
+.product-table-wrapper .product-sku {
+  color: var(--color-text-secondary);
+
+  font-family: monospace;
+
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
+
+/* =========================================================
+   STOCK QUANTITY
+   ========================================================= */
+
+.stock-quantity {
+  display: inline-flex;
+  align-items: center;
+
+  min-width: 34px;
+
   font-size: 13px;
+  font-weight: 600;
+
+  color: var(--color-text);
 }
 
 .stock-quantity.zero {
   color: var(--color-danger);
+}
+
+
+/* Low stock */
+
+.stock-quantity.low {
+  color: #8a6a3d;
+}
+
+
+/* Healthy stock */
+
+.stock-quantity.good {
+  color: #587054;
+}
+
+
+/* =========================================================
+   STOCK STATUS
+   ========================================================= */
+
+.stock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 10px;
+  line-height: 1;
+
+  color: var(--color-text-secondary);
+}
+
+.stock-status::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  flex: 0 0 6px;
+
+  border-radius: 50%;
+
+  background: #9a9891;
+}
+
+.stock-status.in-stock::before {
+  background: #71856d;
+}
+
+.stock-status.low-stock::before {
+  background: #a7834d;
+}
+
+.stock-status.out-of-stock::before {
+  background: #8a5b57;
+}
+
+
+/* =========================================================
+   PRODUCT PRICE
+   ========================================================= */
+
+.product-table-wrapper .product-price {
+  font-family: var(--font-serif);
+
+  font-size: 15px;
+  font-weight: 500;
+
+  color: var(--color-text);
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   PRODUCT ACTIONS
+   ========================================================= */
+
+.product-table-wrapper .table-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 4px;
+}
+
+.product-table-wrapper .table-actions .icon-btn {
+  width: 32px;
+  height: 32px;
+}
+
+
+/* =========================================================
+   PRODUCT TABLE — RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .resource-page {
+    max-width: none;
+  }
+
+  .product-table-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .product-table-wrapper table {
+    min-width: 720px;
+  }
+}
+
+
+@media (max-width: 620px) {
+
+  .product-table-wrapper {
+    border-radius: 6px;
+  }
+
+  .product-table-wrapper table {
+    min-width: 680px;
+  }
+
+  .product-table-wrapper table td:first-child,
+  .product-table-wrapper table th:first-child {
+    padding-left: 14px;
+  }
+
+  .product-table-wrapper .product-image,
+  .product-table-wrapper .product-thumb {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+  }
+
+  .product-table-wrapper .table-actions .icon-btn {
+    width: 30px;
+    height: 30px;
+  }
 }

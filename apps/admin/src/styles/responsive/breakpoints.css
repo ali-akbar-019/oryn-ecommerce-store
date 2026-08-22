@@ -1,134 +1,368 @@
-/* ============ Responsive Breakpoints ============ */
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================= */
 
-/* 1200px and below */
+/* ---------------------------------------------------------
+   1200px and below
+   --------------------------------------------------------- */
+
 @media (max-width: 1200px) {
+
   .stat-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
+
   .settings-grid {
     grid-template-columns: 1fr;
   }
+
 }
 
-/* 1100px and below */
+
+/* ---------------------------------------------------------
+   1100px and below
+   --------------------------------------------------------- */
+
 @media (max-width: 1100px) {
+
   .top-popover {
     right: 20px;
   }
+
   .analytics-grid,
   .analytics-grid.secondary {
     grid-template-columns: 1fr;
   }
+
   .shipping-cards,
   .role-grid {
     grid-template-columns: 1fr;
   }
+
 }
 
-/* 1050px and below */
+
+/* ---------------------------------------------------------
+   1050px and below
+   --------------------------------------------------------- */
+
 @media (max-width: 1050px) {
-  .editor-layout {
-    grid-template-columns: 1fr;
-  }
-  .editor-head {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-  .editor-actions {
-    align-self: flex-end;
-  }
-  .variant-fields {
-    grid-template-columns: 1fr 1fr;
-  }
-  .media-fields {
-    grid-template-columns: 1fr;
-  }
-  .editor-side {
-    display: none;
-  }
-}
 
-/* 900px and below */
-@media (max-width: 900px) {
-  body {
-    min-width: 0;
-  }
-  .sidebar {
-    width: 74px;
-  }
-  .sidebar .brand-row strong,
-  .sidebar .brand-row span,
-  .sidebar .store-switch span,
-  .sidebar .nav-label,
-  .sidebar .nav-group a span,
-  .sidebar-bottom div {
-    display: none;
-  }
-  .sidebar .brand-row {
-    justify-content: center;
-  }
-  .collapse-btn {
-    display: grid;
-  }
-  .sidebar {
-    overflow: visible;
-  }
-  .main-area {
-    margin-left: 74px;
-    width: calc(100% - 74px);
-  }
-  .topbar {
-    padding: 16px 20px;
-    height: 82px;
-  }
-  .page-content {
-    padding: 24px 20px 45px;
-  }
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-  .stat-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .settings-grid {
-    grid-template-columns: 1fr;
-  }
-  .table-wrap {
-    overflow-x: auto;
-  }
-  .search-field {
-    min-width: 220px;
-  }
   .editor-layout {
     grid-template-columns: 1fr;
   }
+
   .editor-head {
     align-items: flex-start;
     flex-direction: column;
   }
+
   .editor-actions {
     align-self: flex-start;
   }
+
+  .variant-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .media-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-side {
+    display: none;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET SIDEBAR
+   900px and below
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  body {
+    min-width: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     Sidebar becomes compact
+     ------------------------------------------------------- */
+
+  .sidebar {
+    width: 76px;
+    padding: 18px 10px;
+  }
+
+
+  /* -------------------------------------------------------
+     Main area follows sidebar
+     ------------------------------------------------------- */
+
+  .main-area {
+    width: calc(100% - 76px);
+    margin-left: 76px;
+  }
+
+
+  /* -------------------------------------------------------
+     Brand
+     
+     Hide ORYN completely.
+     Keep only the collapse/menu control if present.
+     ------------------------------------------------------- */
+
+  .brand-row {
+    justify-content: center;
+    gap: 0;
+    padding: 0 0 16px;
+  }
+
+  .brand-row strong,
+  .brand-row span,
+  .brand-row .brand-mark {
+    display: none;
+  }
+
+  .brand-row .collapse-btn {
+    margin: 0 auto;
+  }
+
+
+  /* -------------------------------------------------------
+     Store switch
+     ------------------------------------------------------- */
+
+  .store-switch {
+    width: 44px;
+    height: 44px;
+
+    margin: 14px auto 16px;
+    padding: 0;
+
+    justify-content: center;
+    gap: 0;
+  }
+
+  .store-switch span {
+    display: none;
+  }
+
+  .store-switch svg {
+    margin: 0;
+  }
+
+  .store-switch svg:last-child {
+    display: none;
+  }
+
+
+  /* -------------------------------------------------------
+     Navigation
+     ------------------------------------------------------- */
+
+  .sidebar nav {
+    width: 100%;
+  }
+
+  .nav-label {
+    display: none;
+  }
+
+  .nav-group {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+
+  /* -------------------------------------------------------
+     Navigation links
+     
+     IMPORTANT:
+     fixed width + auto margins guarantees true centering.
+     ------------------------------------------------------- */
+
+  .nav-group a {
+    width: 54px;
+    height: 42px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0;
+  }
+
+  .nav-group a span {
+    display: none;
+  }
+
+  .nav-group a svg {
+    width: 19px;
+    height: 19px;
+
+    min-width: 19px;
+    min-height: 19px;
+
+    flex: 0 0 19px;
+
+    margin: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     Active navigation
+     ------------------------------------------------------- */
+
+  .nav-group a.active {
+    justify-content: center;
+  }
+
+
+  /* -------------------------------------------------------
+     Sidebar bottom
+     ------------------------------------------------------- */
+
+  .sidebar-bottom {
+    justify-content: center;
+
+    padding-left: 0;
+    padding-right: 0;
+
+    gap: 0;
+  }
+
+  .sidebar-bottom > div {
+    display: none;
+  }
+
+  .sidebar-bottom .admin-avatar {
+    display: grid;
+    margin: 0;
+  }
+
+  .sidebar-bottom .more-btn {
+    display: grid;
+    margin: 0;
+  }
+
+
+  /* -------------------------------------------------------
+     Topbar
+     ------------------------------------------------------- */
+
+  .topbar {
+    height: 82px;
+    padding: 16px 20px;
+  }
+
+
+  /* -------------------------------------------------------
+     Page content
+     ------------------------------------------------------- */
+
+  .page-content {
+    padding: 24px 20px 45px;
+  }
+
+
+  /* -------------------------------------------------------
+     Layouts
+     ------------------------------------------------------- */
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+
+  /* -------------------------------------------------------
+     Tables
+     ------------------------------------------------------- */
+
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  /* -------------------------------------------------------
+     Search
+     ------------------------------------------------------- */
+
+  .search-field {
+    min-width: 220px;
+  }
+
+
+  /* -------------------------------------------------------
+     Product editor
+     ------------------------------------------------------- */
+
+  .editor-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .editor-actions {
+    align-self: flex-start;
+  }
+
+
+  /* -------------------------------------------------------
+     Popovers
+     ------------------------------------------------------- */
+
   .top-popover {
     right: 18px;
   }
+
   .notification-popover {
     width: min(410px, calc(100vw - 36px));
   }
+
+
+  /* -------------------------------------------------------
+     Filters
+     ------------------------------------------------------- */
+
   .order-filters,
   .customer-filters,
   .inventory-filters {
     flex-direction: column;
     gap: 12px;
   }
+
   .order-filters .filter-group,
   .customer-filters .filter-group,
   .inventory-filters .filter-group {
     width: 100%;
   }
+
   .order-filters .filter-group select,
   .order-filters .filter-group input,
   .customer-filters .filter-group select,
@@ -138,107 +372,215 @@
     width: 100%;
     min-width: 0;
   }
+
+
+  /* -------------------------------------------------------
+     Order actions
+     ------------------------------------------------------- */
+
   .order-actions {
     flex-direction: column;
   }
+
   .order-actions button {
     width: 100%;
     justify-content: center;
   }
+
+
+  /* -------------------------------------------------------
+     History
+     ------------------------------------------------------- */
+
   .history-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 4px;
   }
+
   .history-date {
     margin-left: 0;
   }
+
 }
 
-/* 700px and below */
+
+/* =========================================================
+   850px and below
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-editorial {
+    display: none;
+  }
+
+  .login-panel {
+    min-height: 100vh;
+  }
+
+}
+
+
+/* =========================================================
+   700px and below
+   ========================================================= */
+
 @media (max-width: 700px) {
+
   .health-grid {
     grid-template-columns: 1fr;
   }
+
   .rank-list button {
     grid-template-columns: 28px 1fr;
   }
+
   .rank-list strong {
     grid-column: 2;
   }
+
   .panel-head {
     align-items: flex-start;
     flex-direction: column;
   }
+
 }
 
-/* 620px and below */
+
+/* =========================================================
+   620px and below
+   ========================================================= */
+
 @media (max-width: 620px) {
+
+  /* -------------------------------------------------------
+     Sidebar remains compact
+     ------------------------------------------------------- */
+
+  .sidebar {
+    width: 68px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .main-area {
+    width: calc(100% - 68px);
+    margin-left: 68px;
+  }
+
+  .nav-group a {
+    width: 50px;
+    height: 42px;
+  }
+
+  .store-switch {
+    width: 42px;
+    height: 42px;
+  }
+
+
+  /* -------------------------------------------------------
+     Stats
+     ------------------------------------------------------- */
+
   .stat-grid {
     grid-template-columns: 1fr;
   }
+
+
+  /* -------------------------------------------------------
+     Topbar
+     ------------------------------------------------------- */
+
   .topbar h1 {
     font-size: 20px;
   }
+
   .top-actions .secondary-btn {
     display: none;
   }
+
+
+  /* -------------------------------------------------------
+     Page intro
+     ------------------------------------------------------- */
+
   .page-intro {
     align-items: flex-start;
     flex-direction: column;
     gap: 15px;
   }
+
+
+  /* -------------------------------------------------------
+     Toolbar
+     ------------------------------------------------------- */
+
   .toolbar {
     flex-wrap: wrap;
   }
+
   .search-field {
     min-width: 100%;
     flex: 1;
   }
+
+
+  /* -------------------------------------------------------
+     Modals
+     ------------------------------------------------------- */
+
   .modal-backdrop {
     padding: 16px;
   }
+
   .modal {
     width: 100%;
     max-height: calc(100vh - 32px);
   }
+
   .modal-head {
     padding: 16px 18px;
   }
+
   .modal-head h3 {
     font-size: 20px;
   }
+
   .modal-body {
     padding: 16px 18px;
   }
+
   .modal-actions {
     padding: 12px 18px;
     flex-direction: column-reverse;
   }
+
   .modal-actions button {
     width: 100%;
     justify-content: center;
   }
-  .login-page {
-    grid-template-columns: 1fr;
-  }
-  .login-editorial {
-    display: none;
-  }
-  .login-panel {
-    min-height: 100vh;
-  }
-}
 
-/* 850px and below (specific for login) */
-@media (max-width: 850px) {
+
+  /* -------------------------------------------------------
+     Login
+     ------------------------------------------------------- */
+
   .login-page {
     grid-template-columns: 1fr;
   }
+
   .login-editorial {
     display: none;
   }
+
   .login-panel {
     min-height: 100vh;
   }
+
 }
